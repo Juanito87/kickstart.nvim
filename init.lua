@@ -103,4 +103,5 @@ require 'keymaps'
 require 'autocommands'
 
 -- [[ Lazy package manager ]]
-require 'lazy'
+require 'lazy-install'
+require 'lazy-config'
