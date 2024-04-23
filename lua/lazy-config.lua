@@ -32,8 +32,8 @@ require('lazy').setup({
   require 'plugins_config/mini', -- Collections of useful mini plugins, like around/surround
   require 'plugins_config/tree-sitter', -- manage lint, indentation and some othe language related tasks
 
-  -- Broken configs
-  -- require 'plugins_config/harpoon', -- Improve workflow for multiple files
+  -- Broken configs/Testing config
+  require 'plugins_config/harpoon', -- Improve workflow for multiple files
   -- keeping comments for annotation
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
