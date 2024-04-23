@@ -93,6 +93,10 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+-- [[ Global variables ]]
+Autocmd = vim.api.nvim_create_autocmd
+Fugitive = vim.api.nvim_create_augroup('juanito_Fugitive', {})
+
 -- [[ Setting options ]]
 require 'options'
 

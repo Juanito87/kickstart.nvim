@@ -1,7 +1,4 @@
 -- [[ Configure and install plugins ]]
--- Definitions
-local autocmd = vim.api.nvim_create_autocmd
---
 --  To check the current status of your plugins, run
 --    :Lazy
 --
@@ -13,7 +10,16 @@ local autocmd = vim.api.nvim_create_autocmd
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+  -- Plugins with default values
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  -- Plugins with custom values
+  require 'plugins_config/vim-fugitive', -- Manage git in nvim
+  require 'plugins_config/which-key', -- Show created key bindings
+  -- require 'plugins_config/gitsigns', -- Manage git signs
+
+  'APZelos/blamer.nvim', -- Show git blame
+  'ThePrimeagen/git-worktree.nvim', -- Manage worktrees from nvim
+  'theprimeagen/harpoon', -- Improve workflow for multiple files
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -32,18 +38,6 @@ require('lazy').setup({
   --    require('gitsigns').setup({ ... })
   --
   -- See `:help gitsigns` to understand what the configuration keys do
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-    },
-  },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
@@ -59,29 +53,6 @@ require('lazy').setup({
   -- Then, because we use the `config` key, the configuration only runs
   -- after the plugin has been loaded:
   --  config = function() ... end
-
-  { -- Useful plugin to show you pending keybinds.
-    'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-    config = function() -- This is the function that runs, AFTER loading
-      require('which-key').setup()
-
-      -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-        ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-        ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
-      }
-      -- visual mode
-      require('which-key').register({
-        ['<leader>h'] = { 'Git [H]unk' },
-      }, { mode = 'v' })
-    end,
-  },
 
   -- NOTE: Plugins can specify dependencies.
   --
@@ -241,8 +212,8 @@ require('lazy').setup({
       --    That is to say, every time a new file is opened that is associated with
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
       --    function will be executed to configure the current buffer
-      autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
+      Autocmd('LspAttach', {
+        group = Augroup('lsp-attach', { clear = true }),
         callback = function(event)
           -- NOTE: Remember that Lua is a real programming language, and as such it is possible
           -- to define small helper and utility functions so you don't have to repeat yourself.
@@ -301,12 +272,12 @@ require('lazy').setup({
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if client and client.server_capabilities.documentHighlightProvider then
-            autocmd({ 'CursorHold', 'CursorHoldI' }, {
+            Autocmd({ 'CursorHold', 'CursorHoldI' }, {
               buffer = event.buf,
               callback = vim.lsp.buf.document_highlight,
             })
 
-            autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+            Autocmd({ 'CursorMoved', 'CursorMovedI' }, {
               buffer = event.buf,
               callback = vim.lsp.buf.clear_references,
             })
@@ -429,8 +400,12 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
+        python = { 'isort', 'black' },
+        yaml = { 'yamlfix' },
+        go = { 'gofmt' },
+        rust = { 'rustfmt' },
+        toml = { 'taplo' },
+        jinja2 = { 'djlint' },
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
         -- javascript = { { "prettierd", "prettier" } },
