@@ -31,9 +31,10 @@ require('lazy').setup({
   require 'plugins_config/colortheme', -- Color theme for the editor
   require 'plugins_config/mini', -- Collections of useful mini plugins, like around/surround
   require 'plugins_config/tree-sitter', -- manage lint, indentation and some othe language related tasks
+  require 'plugins_config/harpoon', -- Improve workflow for multiple files
 
   -- Broken configs/Testing config
-  require 'plugins_config/harpoon', -- Improve workflow for multiple files
+
   -- keeping comments for annotation
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -78,18 +79,6 @@ require('lazy').setup({
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
-
-  -- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for Kickstart
-  --
-  --  Here are some example plugins that I've included in the Kickstart repository.
-  --  Uncomment any of the lines below to enable them (you will need to restart nvim).
-  --
-  -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
