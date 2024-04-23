@@ -65,7 +65,7 @@ Kickstart Guide:
 
     MOST IMPORTANTLY, we provide a keymap "<space>sh" to [s]earch the [h]elp documentation,
     which is very useful when you're not exactly sure of what you're looking for.
-
+g
   I have left several `:help X` comments throughout the init.lua
     These are hints about where to find more information about the relevant settings,
     plugins or Neovim features used in Kickstart.
@@ -95,7 +95,8 @@ vim.g.have_nerd_font = true
 
 -- [[ Global variables ]]
 Autocmd = vim.api.nvim_create_autocmd
-Fugitive = vim.api.nvim_create_augroup('juanito_Fugitive', {})
+Augroup = vim.api.nvim_create_augroup
+Fugitive = vim.api.nvim_create_augroup('Fugitive', {})
 
 -- [[ Setting options ]]
 require 'options'
