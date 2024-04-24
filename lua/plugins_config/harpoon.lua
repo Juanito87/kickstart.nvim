@@ -5,7 +5,6 @@ return {
   },
   config = function()
     require('harpoon').setup {}
-    -- local harpoon = require('harpoon')
     local mark = require 'harpoon.mark'
     local ui = require 'harpoon.ui'
     --

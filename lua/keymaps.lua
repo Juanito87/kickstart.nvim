@@ -1,4 +1,4 @@
--- [[ Keymaps ]]
+-- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 -- vim.keymap.set(<mode/s> required, <keymap> required, <command> required, <optoins> not required)
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
@@ -58,9 +58,9 @@ vim.keymap.set('n', '<leader>k', ':m .-2<CR>==', { desc = 'Move line down in in 
 -- Window management
 vim.keymap.set('n', '<C-C>', '<C-W><C-C>', { desc = 'Close window with ctrl+c' })
 
--- Markdown preview
-vim.keymap.set('n', '<leader>mp', ':Glow<CR>', { desc = 'Remap glow to show markdown preview' })
-vim.keymap.set('n', '<leader>mq', ':Glow!<CR>', { desc = 'Remap glow to close markdown preview' })
+-- Markdown preview haven't setup this plugin
+-- vim.keymap.set('n', '<leader>mp', ':Glow<CR>', { desc = 'Remap glow to show markdown preview' })
+-- vim.keymap.set('n', '<leader>mq', ':Glow!<CR>', { desc = 'Remap glow to close markdown preview' })
 
 -- Save file
 vim.keymap.set({ 'i', 'v', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })

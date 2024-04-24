@@ -12,7 +12,6 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   -- Plugins with default values
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
-  'APZelos/blamer.nvim', -- Show git blame
   'numToStr/Comment.nvim', -- "gc" to comment visual regions/lines
 
   -- One liners
@@ -21,7 +20,7 @@ require('lazy').setup({
 
   -- Plugins with custom values
   require 'plugins_config/which-key', -- Show created key bindings
-  require 'plugins_config/gitsigns', -- Manage git signs
+  require 'plugins_config/gitsigns', -- Manage git signs, blame
   require 'plugins_config/vim-fugitive', -- Manage git in nvim
   require 'plugins_config/telescope', -- Manage searches nicely
   require 'plugins_config/worktree', -- Manage worktrees from nvim
