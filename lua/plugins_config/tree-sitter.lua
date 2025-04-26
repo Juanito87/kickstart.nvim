@@ -1,8 +1,10 @@
 return { -- Highlight, edit, and navigate code
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
+  main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+  -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
   opts = {
-    ensure_installed = { 'lua', 'rust', 'toml', 'bash', 'dockerfile', 'go', 'http', 'json', 'make', 'markdown', 'python', 'regex', 'yaml' },
+    ensure_installed = { 'lua', 'rust', 'toml', 'bash', 'dockerfile', 'go', 'http', 'json', 'make', 'markdown', 'python', 'regex', 'yaml', 'vim', 'vimdoc', 'diff', 'typescript', 'javascript' },
     -- Install parsers synchronously (only applied to `ensure_installed`)
     sync_install = false,
 
