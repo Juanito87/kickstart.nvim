@@ -17,8 +17,7 @@ require('lazy').setup({
 
   -- One liners
   -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-  -- { 'CRAG666/code_runner.nvim', config = true }, -- Execute code within nvim.
+  -- { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
   -- Plugins with custom values
   require 'plugins_config/which-key', -- Show created key bindings
@@ -34,6 +33,8 @@ require('lazy').setup({
   require 'plugins_config/tree-sitter', -- manage lint, indentation and some othe language related tasks
   require 'plugins_config/harpoon', -- Improve workflow for multiple files
   require 'plugins_config/code_runner', -- Code runner
+  require 'plugins_config/indent_line', -- visualize indentation
+  require 'plugins_config/lint', -- Add inting to files to complement tree sitter
   -- require 'plugins_config/copilot', -- copilot config
 
   -- Broken configs/Testing config
