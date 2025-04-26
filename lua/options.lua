@@ -13,6 +13,14 @@ vim.opt.mouse = 'a'
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
+-- Sync clipboard between OS and Neovim.
+--  Schedule the setting after `UiEnter` because it can increase startup-time.
+--  Remove this option if you want your OS clipboard to remain independent.
+--  See `:help 'clipboard'`
+vim.schedule(function()
+  vim.opt.clipboard = 'unnamedplus'
+end)
+
 -- Set indent
 -- vim.opt.tabstop = 4
 -- vim.opt.softtabstop = 4
@@ -61,7 +69,12 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
---
+
+-- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
+-- instead raise a dialog asking if you wish to save the current file(s)
+-- See `:help 'confirm'`
+vim.opt.confirm = true
+
 -- set netrw config
 vim.g.netrw_banner = 0 -- Remove banner at the top
 vim.g.netrw_liststyle = 3 -- Default directory view. Cycle with i
