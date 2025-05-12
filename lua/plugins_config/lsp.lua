@@ -266,7 +266,7 @@ return {
       },
     }
   end,
-}
+
 { -- Autocompletion
     'saghen/blink.cmp',
     event = 'VimEnter',
@@ -365,3 +365,4 @@ return {
       signature = { enabled = true },
     },
   },
+}
