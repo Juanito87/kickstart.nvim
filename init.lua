@@ -97,10 +97,6 @@ Autocmd = vim.api.nvim_create_autocmd
 Augroup = vim.api.nvim_create_augroup
 Fugitive = vim.api.nvim_create_augroup('Fugitive', {})
 
--- [[ Lazy package manager ]]
-require 'lazy-install'
-require 'lazy-config'
-
 -- [[ Setting options ]]
 require 'options'
 
@@ -109,3 +105,7 @@ require 'keymaps'
 
 -- [[ Autocommands ]]
 require 'autocommands'
+
+-- [[ Lazy package manager ]]
+require 'lazy-install'
+require 'lazy-config'

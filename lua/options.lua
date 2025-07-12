@@ -1,4 +1,4 @@
--- [[ oions  ]]
+-- [[ options  ]]
 -- See `:help vim.o`
 -- NOTE: You can change these oions as you wish!
 --  For more oions, you can see `:help option-list`
@@ -65,7 +65,7 @@ vim.o.splitbelow = true
 --  See `:help 'list'`
 --  and `:help 'listchars'`
 vim.o.list = true
-vim.o.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Show which line your cursor is on
 vim.o.cursorline = true
