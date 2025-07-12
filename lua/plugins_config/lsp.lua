@@ -13,8 +13,9 @@ return {
   'neovim/nvim-lspconfig',
   dependencies = {
     -- Automatically install LSPs and related tools to stdpath for Neovim
-    { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
-    'williamboman/mason-lspconfig.nvim',
+    -- NOTE: Must be loaded before dependants
+    { 'mason-org/mason.nvim', opts = {} },
+      'mason-org/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
 
     -- Useful status updates for LSP.
@@ -97,13 +98,10 @@ return {
         --  Similar to document symbols, except searches over your entire project.
         map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
-        -- Rename the variable under your cursor.
-        --  Most Language Servers support renaming across files, etc.
-        map('<leader>Rn', vim.lsp.buf.rename, '[R]e[n]ame')
-
-        -- Execute a code action, usually your cursor needs to be on top of an error
-        -- or a suggestion from your LSP for this to activate.
-        map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+        -- Jump to the type of the word under your cursor.
+        --  Useful when you're not sure what type a variable is and you want to see
+        --  the definition of its *type*, not where it was *defined*.
+        map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
 
         -- Opens a popup that displays documentation about the word under your cursor
         --  See `:help K` for why this keymap.
@@ -212,6 +210,13 @@ return {
     --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
     local servers = {
       -- clangd = {},
+      ansiblels = {},
+      bashls = {},
+      gh_actions_ls = {},
+      jinja_lsp = {},
+      markdown_oxide = {},
+      terraform_lsp = {},
+      yamlls = {},
       gopls = {},
       pyright = {},
       rust_analyzer = {},

@@ -21,6 +21,12 @@ vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = 'Open netrw' }) -- open n
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+  -- TIP: Disable arrow keys in normal mode, i don use them
+vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
+vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
+vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
+vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+
 -- Keybinds to make split navigation easier.
 --  NOTE: Use CTRL+<hjkl> to switch between windows
 --  See `:help wincmd` for a list of all window commands
@@ -28,6 +34,12 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
+vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
+vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
+vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
+vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
 -- copy pasting
 vim.keymap.set('n', 'Y', 'y$', { desc = 'Yank till the end of the line' })
@@ -58,16 +70,12 @@ vim.keymap.set('n', '<leader>k', ':m .-2<CR>==', { desc = 'Move line down in in 
 -- Window management
 vim.keymap.set('n', '<C-C>', '<C-W><C-C>', { desc = 'Close window with ctrl+c' })
 
--- Markdown preview haven't setup this plugin
--- vim.keymap.set('n', '<leader>mp', ':Glow<CR>', { desc = 'Remap glow to show markdown preview' })
--- vim.keymap.set('n', '<leader>mq', ':Glow!<CR>', { desc = 'Remap glow to close markdown preview' })
-
 -- Save file
 vim.keymap.set({ 'i', 'v', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
 
 -- Function and remap to toggle relative numbers.
-vim.keymap.set('n', '<leader>nr', function() vim.opt.nu = false vim.opt.relativenumber = false end, { desc = 'Disable number and relative number' })
-vim.keymap.set('n', '<leader>rn', function() vim.opt.nu = true vim.opt.relativenumber = true end, { desc = 'Enable number and relative number' })
+vim.keymap.set('n', '<leader>nr', function() vim.o.nu = false vim.opt.relativenumber = false end, { desc = 'Disable number and relative number' })
+vim.keymap.set('n', '<leader>rn', function() vim.o.nu = true vim.opt.relativenumber = true end, { desc = 'Enable number and relative number' })
 
 -- Clean up
 vim.keymap.set('n', '<leader>dw', ':%s/\\s\\+$//e<CR>', { desc = 'Clean trailing whitespace in the document' })
@@ -75,16 +83,20 @@ vim.keymap.set('n', '<leader>dn', ':%s/\\n\\+\\%$//e<CR>', { desc = 'Clean trail
 vim.keymap.set('n', '<leader>ds', ':%s/\\^\\[\\+\\%$//e<CR>', { desc = 'Clean trailing escape sequences in the document' })
 
 -- Code runner keymaps
-vim.keymap.set('n', '<leader>rr', ':RunCode<CR>', { noremap = true, silent = false })
-vim.keymap.set('n', '<leader>rf', ':RunFile<CR>', { noremap = true, silent = false })
-vim.keymap.set('n', '<leader>rft', ':RunFile tab<CR>', { noremap = true, silent = false })
-vim.keymap.set('n', '<leader>rp', ':RunProject<CR>', { noremap = true, silent = false })
-vim.keymap.set('n', '<leader>rc', ':RunClose<CR>', { noremap = true, silent = false })
-vim.keymap.set('n', '<leader>crf', ':CRFiletype<CR>', { noremap = true, silent = false })
-vim.keymap.set('n', '<leader>crp', ':CRProjects<CR>', { noremap = true, silent = false })
+vim.keymap.set('n', '<leader>rr', ':RunCode<CR>', { noremap = true, silent = false, desc = 'Run code based on file type.' })
+vim.keymap.set('n', '<leader>rf', ':RunFile<CR>', { noremap = true, silent = false, desc = 'Run code in current file.'  })
+vim.keymap.set('n', '<leader>rft', ':RunFile tab<CR>', { noremap = true, silent = false, desc = 'Run code in current file on a tab.'  })
+vim.keymap.set('n', '<leader>rp', ':RunProject<CR>', { noremap = true, silent = false, desc = 'Run code in project.'  })
+vim.keymap.set('n', '<leader>rc', ':RunClose<CR>', { noremap = true, silent = false, desc = 'Close runner.'  })
+vim.keymap.set('n', '<leader>crf', ':CRFiletype<CR>', { noremap = true, silent = false, desc = 'Open json with supported files.'  })
+vim.keymap.set('n', '<leader>crp', ':CRProjects<CR>', { noremap = true, silent = false, desc = 'Open json with list of projects.'  })
 
 -- Testing remaps and functions
 
 -- better indenting
 -- vim.keymap.set('v', '<', '<gv')
 -- vim.keymap.set('v', '>', '>gv')
+
+-- Markdown preview haven't setup this plugin
+-- vim.keymap.set('n', '<leader>mp', ':Glow<CR>', { desc = 'Remap glow to show markdown preview' })
+-- vim.keymap.set('n', '<leader>mq', ':Glow!<CR>', { desc = 'Remap glow to close markdown preview' })

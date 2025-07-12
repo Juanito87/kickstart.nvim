@@ -38,7 +38,12 @@ return { -- Autoformat
       rust = { 'rustfmt' },
       toml = { 'taplo' },
       jinja2 = { 'djlint' },
-      javascript = { { 'prettierd', 'prettier' } },
+      javascript = { 'prettierd', 'prettier' },
+      bash = { 'beautysh', 'shellcheck' },
+      terraform = { 'terraform_fmt'},
+      ansible = { 'ansible-lint' },
+      hcl = { 'hcl' },
+      markdown = { 'markdownfmt', 'markdownlint' },
       -- You can use a sub-list to tell conform to run *until* a formatter
       -- is found.
     },
