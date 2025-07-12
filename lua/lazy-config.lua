@@ -9,6 +9,24 @@
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
+
+  -- Plugins with custom values
+  require 'plugins_config/lsp', -- Multilanguage lsp config
+  require 'plugins_config/which-key', -- Show created key bindings
+  require 'plugins_config/gitsigns', -- Manage git signs, blame
+  require 'plugins_config/vim-fugitive', -- Manage git in nvim
+  require 'plugins_config/telescope', -- Manage searches nicely
+  require 'plugins_config/worktree', -- Manage worktrees from nvim
+  require 'plugins_config/conform', -- Autoformat files using lsp on save
+  require 'plugins_config/autocomplete', -- Autocompletion
+  require 'plugins_config/colortheme', -- Color theme for the editor
+  require 'plugins_config/mini', -- Collections of useful mini plugins, like around/surround
+  require 'plugins_config/tree-sitter', -- manage lint, indentation and some othe language related tasks
+  require 'plugins_config/harpoon', -- Improve workflow for multiple files
+  require 'plugins_config/code_runner', -- Code runner
+  require 'plugins_config/indent_line', -- Indentation visualizer
+  require 'plugins_config/lint', -- Linter config
+
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   -- Plugins with default values
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
@@ -64,23 +82,6 @@ require('lazy').setup({
   -- One liners
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-
-  -- Plugins with custom values
-  require 'plugins_config/which-key', -- Show created key bindings
-  require 'plugins_config/gitsigns', -- Manage git signs, blame
-  require 'plugins_config/vim-fugitive', -- Manage git in nvim
-  require 'plugins_config/telescope', -- Manage searches nicely
-  require 'plugins_config/worktree', -- Manage worktrees from nvim
-  require 'plugins_config/lsp', -- Multilanguage lsp config
-  require 'plugins_config/conform', -- Autoformat files using lsp on save
-  require 'plugins_config/autocomplete', -- Autocompletion
-  require 'plugins_config/colortheme', -- Color theme for the editor
-  require 'plugins_config/mini', -- Collections of useful mini plugins, like around/surround
-  require 'plugins_config/tree-sitter', -- manage lint, indentation and some othe language related tasks
-  require 'plugins_config/harpoon', -- Improve workflow for multiple files
-  require 'plugins_config/code_runner', -- Code runner
-  require 'plugins_config/indent_line', -- Indentation visualizer
-  require 'plugins_config/lint', -- Linter config
 
   -- Broken configs/Testing config
 
