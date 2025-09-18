@@ -218,9 +218,9 @@ return {
         ansiblels = {},
         bashls = {},
         gh_actions_ls = {},
-        -- jinja_lsp = {},
+        jinja_lsp = {},
         markdown_oxide = {},
-        -- terraform = {},
+        terraformls = {},
         yamlls = {},
         gopls = {},
         pyright = {},
@@ -257,7 +257,6 @@ return {
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        -- 'stylua', -- Used to format Lua code
         'rustfmt', -- Rust formatter
         'prettier', -- JS/MD formatter
         'black', -- Python formatter
@@ -265,7 +264,17 @@ return {
         'shellcheck',
         'markdownlint',
       })
-      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      require('mason-tool-installer').setup {
+        ensure_installed = ensure_installed,
+        auto_update = false,
+      }
+      local null_ls = require("null-ls")
+      null_ls.setup({
+        sources = {
+          null_ls.builtins.formatting.stylua,
+          null_ls.builtins.formatting.terraform_fmt,
+      },
+      })
 
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
