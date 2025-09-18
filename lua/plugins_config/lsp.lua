@@ -225,7 +225,7 @@ return {
         gopls = {},
         pyright = {},
         rust_analyzer = {},
-        ts_ls = {},
+        tsserve = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
@@ -268,7 +268,7 @@ return {
         ensure_installed = ensure_installed,
         auto_update = false,
       }
-      local null_ls = require("null_ls")
+      local null_ls = require("null-ls")
       null_ls.setup({
         sources = {
           null_ls.builtins.formatting.stylua,
@@ -292,7 +292,25 @@ return {
       }
     end,
   },
+  -- Linters
+    {
+    "nvimtools/none-ls.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      local null_ls = require("null-ls")
 
+      null_ls.setup({
+        sources = {
+          -- Only diagnostics/linters here (NOT formatting)
+          null_ls.builtins.diagnostics.shellcheck,
+          null_ls.builtins.diagnostics.markdownlint,
+          null_ls.builtins.diagnostics.yamllint,
+          null_ls.builtins.diagnostics.ansiblelint,
+        },
+      })
+    end,
+  },
+  
   -- Autocompletion
   {
     'saghen/blink.cmp',
