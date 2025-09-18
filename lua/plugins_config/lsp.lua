@@ -225,7 +225,7 @@ return {
         gopls = {},
         pyright = {},
         rust_analyzer = {},
-        tsserve = {},
+        tsserver = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
@@ -268,13 +268,6 @@ return {
         ensure_installed = ensure_installed,
         auto_update = false,
       }
-      local null_ls = require("null-ls")
-      null_ls.setup({
-        sources = {
-          null_ls.builtins.formatting.stylua,
-          null_ls.builtins.formatting.terraform_fmt,
-      },
-      })
 
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
