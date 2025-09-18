@@ -225,7 +225,7 @@ return {
         gopls = {},
         pyright = {},
         rust_analyzer = {},
-        tsserver = {},
+        ts_ls = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
@@ -295,10 +295,20 @@ return {
       null_ls.setup({
         sources = {
           -- Only diagnostics/linters here (NOT formatting)
+          -- Shell
           null_ls.builtins.diagnostics.shellcheck,
-          null_ls.builtins.diagnostics.markdownlint,
-          null_ls.builtins.diagnostics.yamllint,
+          -- Ansible
           null_ls.builtins.diagnostics.ansiblelint,
+          -- YAML
+          null_ls.builtins.diagnostics.yamllint,
+          -- Terraform
+          null_ls.builtins.diagnostics.terraform_validate,
+          -- Python (ruff or pylint)
+          null_ls.builtins.diagnostics.ruff,
+          -- Go (staticcheck)
+          null_ls.builtins.diagnostics.staticcheck,
+          -- Markdown
+          null_ls.builtins.diagnostics.markdownlint,
         },
       })
     end,
