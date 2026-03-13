@@ -13,7 +13,6 @@ require('lazy').setup({
   -- Plugins with default values
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'numToStr/Comment.nvim', -- "gc" to comment visual regions/lines
-  'github/copilot.vim', -- Copilot
 
   -- One liners
   -- Highlight todo, notes, etc in comments
@@ -34,7 +33,8 @@ require('lazy').setup({
   require 'plugins_config/tree-sitter', -- manage lint, indentation and some othe language related tasks
   require 'plugins_config/harpoon', -- Improve workflow for multiple files
   require 'plugins_config/code_runner', -- Code runner
-  -- require 'plugins_config/copilot', -- copilot config
+  require 'plugins_config/copilot', -- copilot config
+  require 'plugins_config/copilot-chat', -- copilot-chat config
 
   -- Broken configs/Testing config
 
