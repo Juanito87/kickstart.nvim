@@ -4,7 +4,8 @@ return {
     require('code_runner').setup {
       filetype = {
         python = 'python3 -u',
-        typescript = 'deno run',
+        javascript = 'node $file',
+        typescript = 'ts-node $file',
         rust = {
           'cd $dir &&',
           'rustc $fileName &&',

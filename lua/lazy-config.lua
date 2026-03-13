@@ -20,12 +20,12 @@ require('lazy').setup({
   -- { 'CRAG666/code_runner.nvim', config = true }, -- Execute code within nvim.
 
   -- Plugins with custom values
+  require 'plugins_config/lsp', -- Multilanguage lsp config
   require 'plugins_config/which-key', -- Show created key bindings
   require 'plugins_config/gitsigns', -- Manage git signs, blame
   require 'plugins_config/vim-fugitive', -- Manage git in nvim
   require 'plugins_config/telescope', -- Manage searches nicely
   require 'plugins_config/worktree', -- Manage worktrees from nvim
-  require 'plugins_config/lsp', -- Multilanguage lsp config
   require 'plugins_config/conform', -- Autoformat files using lsp on save
   require 'plugins_config/autocomplete', -- Autocompletion
   require 'plugins_config/colortheme', -- Color theme for the editor
@@ -37,26 +37,27 @@ require('lazy').setup({
   require 'plugins_config/copilot-chat', -- copilot-chat config
 
   -- Broken configs/Testing config
+  require 'plugins_config/indent_line', -- Indentation visualizer
+  require 'plugins_config/lint', -- Linter config
 
+  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+  -- Plugins with default values
+  'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+  'numToStr/Comment.nvim', -- "gc" to comment visual regions/lines
   -- keeping comments for annotation
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
-  --
-  -- Use `opts = {}` to force a plugin to be loaded.
-  --
-  --  This is equivalent to:
-  --    require('Comment').setup({})
-
-  -- "gc" to comment visual regions/lines
-  -- { 'numToStr/Comment.nvim', opts = {} }, -- optional notation
-
-  -- Here is a more advanced example where we pass configuration
-  -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
-  --    require('gitsigns').setup({ ... })
-  --
-  -- See `:help gitsigns` to understand what the configuration keys do
-
+  -- Use `opts = {}` to automatically pass options to a plugin's `setup()` function, forcing the plugin to be loaded.
+  -- Alternatively, use `config = function() ... end` for full control over the configuration.
+  -- If you prefer to call `setup` explicitly, use:
+  --    {
+  --        'lewis6991/gitsigns.nvim',
+  --        config = function()
+  --            require('gitsigns').setup({
+  --                -- Your gitsigns configuration here
+  --            })
+  --        end,
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -68,9 +69,8 @@ require('lazy').setup({
   -- which loads which-key before all the UI elements are loaded. Events can be
   -- normal autocommands events (`:help autocmd-events`).
   --
-  -- Then, because we use the `config` key, the configuration only runs
-  -- after the plugin has been loaded:
-  --  config = function() ... end
+  -- Then, because we use the `opts` key (recommended), the configuration runs
+  -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
   -- NOTE: Plugins can specify dependencies.
   --
@@ -89,6 +89,27 @@ require('lazy').setup({
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   -- { import = 'custom.plugins' },
+  --    }
+
+  -- Broken configs/Testing config
+
+  -- NOTE: Plugins can also be added by using a table,
+  -- with the first argument being the link and the following
+  -- keys can be used to configure plugin behavior/loading/etc.
+  --
+  -- Use `opts = {}` to force a plugin to be loaded.
+  --
+  --  This is equivalent to:
+  --    require('Comment').setup({})
+
+  -- "gc" to comment visual regions/lines
+  -- { 'numToStr/Comment.nvim', opts = {} }, -- optional notation
+
+  -- Here is a more advanced example where we pass configuration
+  -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
+  --    require('gitsigns').setup({ ... })
+  --
+  -- See `:help gitsigns` to understand what the configuration keys do
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
