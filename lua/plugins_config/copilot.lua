@@ -21,4 +21,4 @@ return { -- Copilot inline completions
       { '<leader>ae', '<cmd>Copilot enable<cr>', mode = 'n', desc = 'Copilot: [E]nable' },
       { '<leader>ad', '<cmd>Copilot disable<cr>', mode = 'n', desc = 'Copilot: [D]isable' },
     },
-  },
+  }
