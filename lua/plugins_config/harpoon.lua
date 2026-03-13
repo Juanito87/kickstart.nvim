@@ -8,20 +8,20 @@ return {
     local mark = require 'harpoon.mark'
     local ui = require 'harpoon.ui'
     --
-    vim.keymap.set('n', '<leader>a', mark.add_file, { desc = 'Mark a file to be used in harpoon' })
+    vim.keymap.set('n', '<leader>m', mark.add_file, { desc = 'Harpoon: [M]ark file' })
     vim.keymap.set('n', '<C-e>', ui.toggle_quick_menu, { desc = 'Toogle harpoon quick menu' })
     --
     vim.keymap.set('n', '<C-u>', function()
       ui.nav_file(1)
     end, { desc = 'Navigate to first marked file' })
-    vim.keymap.set('n', '<C-i>', function()
+    vim.keymap.set('n', '<M-i>', function()
       ui.nav_file(2)
-    end, { desc = 'Navigate to first marked file' })
+    end, { desc = 'Navigate to second marked file' })
     vim.keymap.set('n', '<C-o>', function()
       ui.nav_file(3)
-    end, { desc = 'Navigate to first marked file' })
+    end, { desc = 'Navigate to third marked file' })
     vim.keymap.set('n', '<C-p>', function()
       ui.nav_file(4)
-    end, { desc = 'Navigate to first marked file' })
+    end, { desc = 'Navigate to fourth marked file' })
   end,
 }

@@ -62,7 +62,7 @@ vim.keymap.set('i', '?', '?<c-g>u', { desc = 'Add undo breakpoint on a ?' })
 -- Moving text around
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move selection down in visual mode' })
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move selection up in visual mode' })
-vim.keymap.set('i', '<C-k>', '<esc>:m .-2<CR>==', { desc = 'Move line up in insert mode' })
+vim.keymap.set('i', '<M-k>', '<esc>:m .-2<CR>==', { desc = 'Move line up in insert mode' })
 vim.keymap.set('i', '<C-j>', '<esc>:m .+1<CR>==', { desc = 'Move line down in insert mode' })
 vim.keymap.set('n', '<leader>j', ':m .+1<CR>==', { desc = 'Move line up in in normal mode' })
 vim.keymap.set('n', '<leader>k', ':m .-2<CR>==', { desc = 'Move line down in in normal mode' })
