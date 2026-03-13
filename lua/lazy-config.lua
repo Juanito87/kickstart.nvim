@@ -9,6 +9,15 @@
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
+  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+  -- Plugins with default values
+  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  'numToStr/Comment.nvim', -- "gc" to comment visual regions/lines
+
+  -- One liners
+  -- Highlight todo, notes, etc in comments
+  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  -- { 'CRAG666/code_runner.nvim', config = true }, -- Execute code within nvim.
 
   -- Plugins with custom values
   require 'plugins_config/lsp', -- Multilanguage lsp config
@@ -24,6 +33,10 @@ require('lazy').setup({
   require 'plugins_config/tree-sitter', -- manage lint, indentation and some othe language related tasks
   require 'plugins_config/harpoon', -- Improve workflow for multiple files
   require 'plugins_config/code_runner', -- Code runner
+  require 'plugins_config/copilot', -- copilot config
+  require 'plugins_config/copilot-chat', -- copilot-chat config
+
+  -- Broken configs/Testing config
   require 'plugins_config/indent_line', -- Indentation visualizer
   require 'plugins_config/lint', -- Linter config
 
@@ -31,7 +44,6 @@ require('lazy').setup({
   -- Plugins with default values
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
   'numToStr/Comment.nvim', -- "gc" to comment visual regions/lines
-  'github/copilot.vim', -- Copilot
   -- keeping comments for annotation
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -78,10 +90,6 @@ require('lazy').setup({
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   -- { import = 'custom.plugins' },
   --    }
-
-  -- One liners
-  -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
   -- Broken configs/Testing config
 
