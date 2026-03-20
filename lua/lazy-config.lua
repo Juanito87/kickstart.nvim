@@ -33,8 +33,7 @@ require('lazy').setup({
   require 'plugins_config/tree-sitter', -- manage lint, indentation and some othe language related tasks
   require 'plugins_config/harpoon', -- Improve workflow for multiple files
   require 'plugins_config/code_runner', -- Code runner
-  require 'plugins_config/copilot', -- copilot config
-  require 'plugins_config/copilot-chat', -- copilot-chat config
+  require 'plugins_config/avante', -- avante AI config (uses claude CLI)
 
   -- Broken configs/Testing config
   require 'plugins_config/indent_line', -- Indentation visualizer
