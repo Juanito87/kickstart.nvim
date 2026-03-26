@@ -1,7 +1,7 @@
 -- [[ options  ]]
 -- See `:help vim.o`
--- NOTE: You can change these oions as you wish!
---  For more oions, you can see `:help option-list`
+-- NOTE: You can change these options as you wish!
+--  For more options, you can see `:help option-list`
 
 -- Set numbers and relativenumber
 vim.o.number = true

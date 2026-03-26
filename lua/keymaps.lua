@@ -21,7 +21,7 @@ vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = 'Open netrw' }) -- open n
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
-  -- TIP: Disable arrow keys in normal mode, i don use them
+-- TIP: Disable arrow keys in normal mode, i don use them
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
@@ -75,7 +75,7 @@ vim.keymap.set({ 'i', 'v', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Sav
 
 -- Function and remap to toggle relative numbers.
 vim.keymap.set('n', '<leader>nr', function() vim.o.nu = false vim.opt.relativenumber = false end, { desc = 'Disable number and relative number' })
-vim.keymap.set('n', '<leader>rn', function() vim.o.nu = true vim.opt.relativenumber = true end, { desc = 'Enable number and relative number' })
+vim.keymap.set('n', '<leader>tn', function() vim.o.nu = true vim.opt.relativenumber = true end, { desc = 'Enable number and relative number' })
 
 -- Clean up
 vim.keymap.set('n', '<leader>dw', ':%s/\\s\\+$//e<CR>', { desc = 'Clean trailing whitespace in the document' })
