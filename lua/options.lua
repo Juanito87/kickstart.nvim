@@ -68,4 +68,4 @@ vim.g.netrw_liststyle = 3 -- Default directory view. Cycle with i
 vim.g.netrw_altv = 1 -- Files are opened to the right of netrw
 vim.g.netrw_chgwin = -1 -- Files are opened in the netrw window
 vim.g.netrw_winsize = 25 -- Window size
-vim.g.netrw_list_hide = '.*.swp$, *.pyc$,  *.log$,  *.o$,  *.xmi$,  *.swp$,  *.bak$,  *.pyc$,  *.class$,  *.jar$,  *.war$,  *__pycache__*' -- Hide files with this extensions
+vim.g.netrw_list_hide = '.*.swp$, *.pyc$, *.log$, *.o$, *.xmi$, *.swp$, *.bak$, *.class$, *.jar$, *.war$, *__pycache__*' -- Hide files with this extensions

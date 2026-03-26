@@ -16,12 +16,12 @@ return {
     end, { desc = 'Navigate to first marked file' })
     vim.keymap.set('n', '<C-i>', function()
       ui.nav_file(2)
-    end, { desc = 'Navigate to first marked file' })
+    end, { desc = 'Navigate to second marked file' })
     vim.keymap.set('n', '<C-o>', function()
       ui.nav_file(3)
-    end, { desc = 'Navigate to first marked file' })
+    end, { desc = 'Navigate to third marked file' })
     vim.keymap.set('n', '<C-p>', function()
       ui.nav_file(4)
-    end, { desc = 'Navigate to first marked file' })
+    end, { desc = 'Navigate to fourth marked file' })
   end,
 }
