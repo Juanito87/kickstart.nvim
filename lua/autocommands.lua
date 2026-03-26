@@ -32,9 +32,15 @@ Autocmd({ 'BufEnter' }, {
 })
 
 -- Set cursorline only in focused window
-Autocmd({ 'WinEnter', 'WinLeave' }, {
+Autocmd('WinEnter', {
   group = augroup 'cursorline',
   callback = function()
-    vim.wo.cursorline = vim.fn.win_getid() == vim.fn.win_getid()
+    vim.wo.cursorline = true
+  end,
+})
+Autocmd('WinLeave', {
+  group = augroup 'cursorline',
+  callback = function()
+    vim.wo.cursorline = false
   end,
 })
