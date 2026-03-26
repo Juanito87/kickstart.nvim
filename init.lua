@@ -109,3 +109,6 @@ require 'autocommands'
 -- [[ Lazy package manager ]]
 require 'lazy-install'
 require 'lazy-config'
+
+-- [[ Claude Code CLI integration ]]
+require 'plugins_config/claude'

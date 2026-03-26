@@ -24,6 +24,7 @@ return { -- Useful plugin to show you pending keybinds.
     -- visual mode
     require('which-key').add {
       { '<leader>h', desc = 'Git [H]unk', mode = 'v' },
+      { '<leader>cs', desc = '[C]laude [S]end selection', mode = 'v' },
     }
   end,
 }
