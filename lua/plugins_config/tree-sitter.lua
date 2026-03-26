@@ -1,8 +1,10 @@
 return { -- Highlight, edit, and navigate code
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
+  main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+  -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
   opts = {
-    ensure_installed = { 'lua', 'rust', 'toml', 'bash', 'dockerfile', 'go', 'http', 'json', 'make', 'markdown', 'python', 'regex', 'yaml' },
+    ensure_installed = { 'lua', 'luadoc', 'rust', 'toml', 'bash', 'dockerfile', 'go', 'json', 'make', 'markdown', 'python', 'regex', 'yaml', 'vim', 'vimdoc', 'diff', 'typescript', 'javascript' },
     -- Install parsers synchronously (only applied to `ensure_installed`)
     sync_install = false,
 
@@ -24,7 +26,13 @@ return { -- Highlight, edit, and navigate code
     require('nvim-treesitter.install').prefer_git = true
     ---@diagnostic disable-next-line: missing-fields
     require('nvim-treesitter.configs').setup(opts)
-
+    config = function()
+      local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+      require('nvim-treesitter').install(filetypes)
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = filetypes,
+        callback = function() vim.treesitter.start() end,
+      })
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
     --
