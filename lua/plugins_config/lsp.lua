@@ -180,8 +180,6 @@ return {
         virtual_text = true, -- Text shows up at the end of the line
         virtual_lines = false, -- Teest shows up underneath the line, with virtual lines
 
-        -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
-        jump = { float = true },
         signs = vim.g.have_nerd_font and {
           text = {
             [vim.diagnostic.severity.ERROR] = '󰅚 ',
@@ -219,17 +217,9 @@ return {
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
-              -- The following autocommand is used to enable inlay hints in your
-        -- code, if the language server you are using supports them
-        --
-        -- This may be unwanted, since they displace some of your code
-        if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-          map('<leader>th', function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-          end, '[T]oggle Inlay [H]ints')
-        end
-      end,
-    })
+      -- The following autocommand is used to enable inlay hints in your
+      -- code, if the language server you are using supports them
+      --
 
     -- LSP servers and clients are able to communicate to each other what features they support.
     --  By default, Neovim doesn't support everything that is in the LSP specification.
@@ -294,7 +284,6 @@ return {
       vim.list_extend(ensure_installed, {
         'rustfmt', -- Rust formatter
         'prettier', -- JS/MD formatter
-        'black', -- Python formatter
         'isort',
         'shellcheck',
         'markdownlint',
@@ -337,23 +326,26 @@ return {
   -- Linters
     {
     "nvimtools/none-ls.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvimtools/none-ls-extras.nvim", -- provides shellcheck, ruff (removed from core none-ls)
+    },
     config = function()
       local null_ls = require("null-ls")
 
       null_ls.setup({
         sources = {
           -- Only diagnostics/linters here (NOT formatting)
-          -- Shell
-          null_ls.builtins.diagnostics.shellcheck,
+          -- Shell (via none-ls-extras)
+          -- require("none-ls.diagnostics.shellcheck"),
           -- Ansible
           null_ls.builtins.diagnostics.ansiblelint,
           -- YAML
           null_ls.builtins.diagnostics.yamllint,
           -- Terraform
           null_ls.builtins.diagnostics.terraform_validate,
-          -- Python (ruff or pylint)
-          null_ls.builtins.diagnostics.ruff,
+          -- Python (via none-ls-extras)
+          -- require("none-ls.diagnostics.ruff"),
           -- Go (staticcheck)
           null_ls.builtins.diagnostics.staticcheck,
           -- Markdown
