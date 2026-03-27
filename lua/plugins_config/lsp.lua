@@ -284,7 +284,6 @@ return {
       vim.list_extend(ensure_installed, {
         'rustfmt', -- Rust formatter
         'prettier', -- JS/MD formatter
-        'isort',
         'shellcheck',
         'markdownlint',
       })
