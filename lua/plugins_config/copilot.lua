@@ -1,4 +1,4 @@
-  { -- Copilot inline completions
+return { -- Copilot inline completions
     'github/copilot.vim',
     init = function()
       -- Disable the default Tab mapping so nvim-cmp can use Tab normally
@@ -21,4 +21,4 @@
       { '<leader>ae', '<cmd>Copilot enable<cr>', mode = 'n', desc = 'Copilot: [E]nable' },
       { '<leader>ad', '<cmd>Copilot disable<cr>', mode = 'n', desc = 'Copilot: [D]isable' },
     },
-  },
+  }
