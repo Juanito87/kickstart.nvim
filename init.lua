@@ -112,3 +112,4 @@ require 'lazy-config'
 
 -- [[ Claude Code CLI integration ]]
 require 'plugins_config/claude'
+require 'plugins_config/gemini'
