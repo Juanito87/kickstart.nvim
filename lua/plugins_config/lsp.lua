@@ -111,10 +111,6 @@ return {
           --  See `:help K` for why this keymap.
           map('K', vim.lsp.buf.hover, 'Hover Documentation')
 
-          -- WARN: This is not Goto Definition, this is Goto Declaration.
-          --  For example, in C this would take you to the header.
-          map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
           --    See `:help CursorHold` for information about when this is executed
@@ -162,9 +158,7 @@ return {
           --
           -- This may be unwanted, since they displace some of your code
           if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-            map('<leader>th', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-            end, '[T]oggle Inlay [H]ints')
+            map('<leader>th', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end, '[T]oggle Inlay [H]ints')
           end
         end,
       })
@@ -172,13 +166,11 @@ return {
       -- Diagnostic Config
       -- See :help vim.diagnostic.Opts
       vim.diagnostic.config {
-	update_in_insert = false,
+        update_in_insert = false,
         severity_sort = true,
         float = { border = 'rounded', source = 'if_many' },
         underline = { severity = vim.diagnostic.severity.ERROR },
-	-- Can switch between these as you prefer
-        virtual_text = true, -- Text shows up at the end of the line
-        virtual_lines = false, -- Teest shows up underneath the line, with virtual lines
+        virtual_lines = false, -- Text shows up underneath the line, with virtual lines
 
         signs = vim.g.have_nerd_font and {
           text = {
@@ -221,22 +213,15 @@ return {
       -- code, if the language server you are using supports them
       --
 
-    -- LSP servers and clients are able to communicate to each other what features they support.
-    --  By default, Neovim doesn't support everything that is in the LSP specification.
-    --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-    --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-
-    -- Enable the following language servers
-    --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-    --
-    --  Add any additional override configuration in the following tables. Available keys are:
-    --  - cmd (table): Override the default command used to start the server
-    --  - filetypes (table): Override the default list of associated filetypes for the server
-    --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
-    --  - settings (table): Override the default settings passed when initializing the server.
-    --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      -- Enable the following language servers
+      --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
+      --
+      --  Add any additional override configuration in the following tables. Available keys are:
+      --  - cmd (table): Override the default command used to start the server
+      --  - filetypes (table): Override the default list of associated filetypes for the server
+      --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
+      --  - settings (table): Override the default settings passed when initializing the server.
+      --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 
       local servers = {
         -- clangd = {},
@@ -286,6 +271,7 @@ return {
         'prettier', -- JS/MD formatter
         'shellcheck',
         'markdownlint',
+        'luacheck',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed, auto_update = false }
       for name, server in pairs(servers) do
@@ -323,16 +309,16 @@ return {
     end,
   },
   -- Linters
-    {
-    "nvimtools/none-ls.nvim",
+  {
+    'nvimtools/none-ls.nvim',
     dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvimtools/none-ls-extras.nvim", -- provides shellcheck, ruff (removed from core none-ls)
+      'nvim-lua/plenary.nvim',
+      'nvimtools/none-ls-extras.nvim', -- provides shellcheck, ruff (removed from core none-ls)
     },
     config = function()
-      local null_ls = require("null-ls")
+      local null_ls = require 'null-ls'
 
-      null_ls.setup({
+      null_ls.setup {
         sources = {
           -- Only diagnostics/linters here (NOT formatting)
           -- Shell (via none-ls-extras)
@@ -347,13 +333,15 @@ return {
           -- require("none-ls.diagnostics.ruff"),
           -- Go (staticcheck)
           null_ls.builtins.diagnostics.staticcheck,
+          -- Lua
+          null_ls.builtins.diagnostics.luacheck,
           -- Markdown
           null_ls.builtins.diagnostics.markdownlint,
         },
-      })
+      }
     end,
   },
-  
+
   -- Autocompletion
   {
     'saghen/blink.cmp',
@@ -369,9 +357,7 @@ return {
           -- Build Step is needed for regex support in snippets.
           -- This step is not supported in many windows environments.
           -- Remove the below condition to re-enable on windows.
-          if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
-            return
-          end
+          if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then return end
           return 'make install_jsregexp'
         end)(),
         dependencies = {
