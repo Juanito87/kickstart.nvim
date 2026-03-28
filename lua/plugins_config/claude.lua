@@ -21,9 +21,14 @@ local function open()
 end
 
 local function toggle()
-  if is_valid() then
+  if claude_win and vim.api.nvim_win_is_valid(claude_win) then
     vim.api.nvim_win_close(claude_win, false)
     claude_win = nil
+  elseif claude_buf and vim.api.nvim_buf_is_valid(claude_buf) then
+    vim.cmd 'vsplit'
+    claude_win = vim.api.nvim_get_current_win()
+    vim.api.nvim_win_set_buf(claude_win, claude_buf)
+    vim.cmd 'startinsert'
   else
     open()
   end

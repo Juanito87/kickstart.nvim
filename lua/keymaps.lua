@@ -6,8 +6,8 @@
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Remove higlight after search is done' })
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', function() vim.diagnostic.goto({ direction = 'prev', float = false }) end, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', function() vim.diagnostic.goto({ direction = 'next', float = false }) end, { desc = 'Go to next [D]iagnostic message' })
+vim.keymap.set('n', '[d', function() vim.diagnostic['goto'] { direction = 'prev', float = false } end, { desc = 'Go to previous [D]iagnostic message' })
+vim.keymap.set('n', ']d', function() vim.diagnostic['goto'] { direction = 'next', float = false } end, { desc = 'Go to next [D]iagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
@@ -36,10 +36,10 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
-vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
-vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
-vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
-vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+vim.keymap.set('n', '<C-S-h>', '<C-w>H', { desc = 'Move window to the left' })
+vim.keymap.set('n', '<C-S-l>', '<C-w>L', { desc = 'Move window to the right' })
+vim.keymap.set('n', '<C-S-j>', '<C-w>J', { desc = 'Move window to the lower' })
+vim.keymap.set('n', '<C-S-k>', '<C-w>K', { desc = 'Move window to the upper' })
 
 -- copy pasting
 vim.keymap.set('n', 'Y', 'y$', { desc = 'Yank till the end of the line' })
@@ -62,8 +62,8 @@ vim.keymap.set('i', '?', '?<c-g>u', { desc = 'Add undo breakpoint on a ?' })
 -- Moving text around
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move selection down in visual mode' })
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move selection up in visual mode' })
-vim.keymap.set('i', '<C-k>', '<esc>:m .-2<CR>==', { desc = 'Move line up in insert mode' })
-vim.keymap.set('i', '<C-j>', '<esc>:m .+1<CR>==', { desc = 'Move line down in insert mode' })
+vim.keymap.set('i', '<M-k>', '<esc>:m .-2<CR>==', { desc = 'Move line up in insert mode' })
+vim.keymap.set('i', '<M-j>', '<esc>:m .+1<CR>==', { desc = 'Move line down in insert mode' })
 vim.keymap.set('n', '<leader>j', ':m .+1<CR>==', { desc = 'Move line down in normal mode' })
 vim.keymap.set('n', '<leader>k', ':m .-2<CR>==', { desc = 'Move line up in normal mode' })
 
@@ -74,8 +74,14 @@ vim.keymap.set('n', '<C-C>', '<C-W><C-C>', { desc = 'Close window with ctrl+c' }
 vim.keymap.set({ 'i', 'v', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
 
 -- Function and remap to toggle relative numbers.
-vim.keymap.set('n', '<leader>nr', function() vim.o.nu = false vim.opt.relativenumber = false end, { desc = 'Disable number and relative number' })
-vim.keymap.set('n', '<leader>tn', function() vim.o.nu = true vim.opt.relativenumber = true end, { desc = 'Enable number and relative number' })
+vim.keymap.set('n', '<leader>nr', function()
+  vim.o.nu = false
+  vim.opt.relativenumber = false
+end, { desc = 'Disable number and relative number' })
+vim.keymap.set('n', '<leader>tn', function()
+  vim.o.nu = true
+  vim.opt.relativenumber = true
+end, { desc = 'Enable number and relative number' })
 
 -- Clean up
 vim.keymap.set('n', '<leader>dw', ':%s/\\s\\+$//e<CR>', { desc = 'Clean trailing whitespace in the document' })
@@ -84,12 +90,12 @@ vim.keymap.set('n', '<leader>ds', ':%s/\\^\\[\\+\\%$//e<CR>', { desc = 'Clean tr
 
 -- Code runner keymaps
 vim.keymap.set('n', '<leader>rr', ':RunCode<CR>', { noremap = true, silent = false, desc = 'Run code based on file type.' })
-vim.keymap.set('n', '<leader>rf', ':RunFile<CR>', { noremap = true, silent = false, desc = 'Run code in current file.'  })
-vim.keymap.set('n', '<leader>rft', ':RunFile tab<CR>', { noremap = true, silent = false, desc = 'Run code in current file on a tab.'  })
-vim.keymap.set('n', '<leader>rp', ':RunProject<CR>', { noremap = true, silent = false, desc = 'Run code in project.'  })
-vim.keymap.set('n', '<leader>rc', ':RunClose<CR>', { noremap = true, silent = false, desc = 'Close runner.'  })
-vim.keymap.set('n', '<leader>crf', ':CRFiletype<CR>', { noremap = true, silent = false, desc = 'Open json with supported files.'  })
-vim.keymap.set('n', '<leader>crp', ':CRProjects<CR>', { noremap = true, silent = false, desc = 'Open json with list of projects.'  })
+vim.keymap.set('n', '<leader>rf', ':RunFile<CR>', { noremap = true, silent = false, desc = 'Run code in current file.' })
+vim.keymap.set('n', '<leader>rft', ':RunFile tab<CR>', { noremap = true, silent = false, desc = 'Run code in current file on a tab.' })
+vim.keymap.set('n', '<leader>rp', ':RunProject<CR>', { noremap = true, silent = false, desc = 'Run code in project.' })
+vim.keymap.set('n', '<leader>rc', ':RunClose<CR>', { noremap = true, silent = false, desc = 'Close runner.' })
+vim.keymap.set('n', '<leader>crf', ':CRFiletype<CR>', { noremap = true, silent = false, desc = 'Open json with supported files.' })
+vim.keymap.set('n', '<leader>crp', ':CRProjects<CR>', { noremap = true, silent = false, desc = 'Open json with list of projects.' })
 
 -- Testing remaps and functions
 
