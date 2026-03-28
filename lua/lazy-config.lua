@@ -27,7 +27,8 @@ require('lazy').setup({
   require 'plugins_config/telescope', -- Manage searches nicely
   require 'plugins_config/worktree', -- Manage worktrees from nvim
   require 'plugins_config/conform', -- Autoformat files using lsp on save
-  require 'plugins_config/autocomplete', -- Autocompletion
+  -- require 'plugins_config/autocomplete', -- Autocompletion
+
   require 'plugins_config/colortheme', -- Color theme for the editor
   require 'plugins_config/mini', -- Collections of useful mini plugins, like around/surround
   require 'plugins_config/tree-sitter', -- manage lint, indentation and some othe language related tasks

@@ -81,6 +81,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader>gwc', function()
       require('telescope').extensions.git_worktree.create_git_worktree() -- create worktree
     end, { desc = '[G]it [W]orktree [C]reate' })
+    --[[
     -- This runs on LSP attach per buffer (see main LSP attach function in 'neovim/nvim-lspconfig' config for more info,
     -- it is better explained there). This allows easily switching between pickers if you prefer using something else!
     vim.api.nvim_create_autocmd('LspAttach', {
@@ -114,13 +115,14 @@ return { -- Fuzzy Finder (files, lsp, etc)
         vim.keymap.set('n', 'grt', builtin.lsp_type_definitions, { buffer = buf, desc = '[G]oto [T]ype Definition' })
       end,
     })
+    --]]
 
     -- Slightly advanced example of overriding default behavior and theme
     vim.keymap.set('n', '<leader>/', function()
       -- You can pass additional configuration to Telescope to change the theme, layout, etc.
       builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-        winblend = 30,
-        previewer = true,
+        winblend = 10,
+        previewer = false,
       })
     end, { desc = '[/] Fuzzily search in current buffer' })
 
