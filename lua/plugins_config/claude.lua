@@ -47,5 +47,5 @@ local function send_selection()
   vim.api.nvim_chan_send(chan, text .. '\n')
 end
 
-vim.keymap.set('n', '<leader>cc', toggle, { desc = '[C]laude toggle' })
-vim.keymap.set('v', '<leader>cs', send_selection, { desc = '[C]laude [S]end selection' })
+vim.keymap.set('n', '<leader>cct', toggle, { desc = '[C]ode [C]laude [T]oggle' })
+vim.keymap.set('v', '<leader>ccs', send_selection, { desc = '[C]ode [C]laude [S]end' })
