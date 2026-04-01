@@ -15,7 +15,7 @@ return { -- Highlight, edit, and navigate code
     --  If you are experiencing weird indenting issues, add the language to
     --  the list of additional_vim_regex_highlighting and disabled languages for indent.
     additional_vim_regex_highlighting = false,
-  },
+  },<<<<<<< upd
   indent = { enable = true, disable = { 'ruby' } },
   config = function()
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
@@ -23,6 +23,7 @@ return { -- Highlight, edit, and navigate code
     -- Prefer git instead of curl in order to improve connectivity in some environments
     require('nvim-treesitter.install').prefer_git = true
     ---@diagnostic disable-next-line: missing-fields
+
     -- This manually starts treesitter for specific filetypes
     local parsers = {
       'bash',
@@ -70,6 +71,7 @@ return { -- Highlight, edit, and navigate code
         vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
       end,
     })
+
     -- nvim-treesitter health check reports install_dir with a trailing slash,
     -- but nvim's rtp entries have no trailing slash; add it explicitly to pass checkhealth.
     vim.opt.rtp:prepend(vim.fn.stdpath 'data' .. '/site/')

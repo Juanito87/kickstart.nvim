@@ -59,8 +59,8 @@ return {
       --    That is to say, every time a new file is opened that is associated with
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
       --    function will be executed to configure the current buffer
-      Autocmd('LspAttach', {
-        group = Augroup('lsp-attach', { clear = true }),
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
           -- NOTE: Remember that Lua is a real programming language, and as such it is possible
           -- to define small helper and utility functions so you don't have to repeat yourself.
@@ -71,6 +71,8 @@ return {
             mode = mode or 'n'
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
+
+          -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
           map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
 
@@ -78,6 +80,12 @@ return {
           -- or a suggestion from your LSP for this to activate.
           map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
 
+          -- WARN: This is not Goto Definition, this is Goto Declaration.
+          --  For example, in C this would take you to the header.
+          map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+
+          --[[
+          -- Old Mappings (retained for reference)
           -- Find references for the word under your cursor.
           map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
@@ -89,10 +97,6 @@ return {
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
           map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-
-          -- WARN: This is not Goto Definition, this is Goto Declaration.
-          --  For example, in C this would take you to the header.
-          map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
@@ -110,6 +114,7 @@ return {
           -- Opens a popup that displays documentation about the word under your cursor
           --  See `:help K` for why this keymap.
           map('K', vim.lsp.buf.hover, 'Hover Documentation')
+          --]]
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
@@ -118,6 +123,8 @@ return {
 
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
+          -- NOTE: With Neovim 0.10+, client:supports_method() is the standard way to check for capabilities.
+
           if client and client:supports_method('textDocument/documentHighlight', event.buf) then
             local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
@@ -151,6 +158,7 @@ return {
         end,
       })
 
+      --[[
       -- Diagnostic Config
       -- See :help vim.diagnostic.Opts
       vim.diagnostic.config {
@@ -181,6 +189,23 @@ return {
             return diagnostic_message[diagnostic.severity]
           end,
         },
+        -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
+        jump = { float = true },
+      }
+      --]]
+
+      -- Diagnostic Config & Keymaps
+      -- See :help vim.diagnostic.Opts
+      vim.diagnostic.config {
+        update_in_insert = false,
+        severity_sort = true,
+        float = { border = 'rounded', source = 'if_many' },
+        underline = { severity = { min = vim.diagnostic.severity.WARN } },
+
+        -- Can switch between these as you prefer
+        virtual_text = true, -- Text shows up at the end of the line
+        virtual_lines = false, -- Text shows up underneath the line, with virtual lines
+
         -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
         jump = { float = true },
       }
