@@ -25,7 +25,35 @@ return { -- Highlight, edit, and navigate code
     -- Prefer git instead of curl in order to improve connectivity in some environments
     require('nvim-treesitter.install').prefer_git = true
     ---@diagnostic disable-next-line: missing-fields
-    require('nvim-treesitter').setup(opts)
+    require('nvim-treesitter.configs').setup(opts)
+
+    --[[
+    -- Performance-focused FileType autocommand from upstream Kickstart
+    -- This manually starts treesitter for specific filetypes
+    local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+    vim.api.nvim_create_autocmd('FileType', {
+      callback = function(args)
+        local buf, filetype = args.buf, args.match
+
+        local language = vim.treesitter.language.get_lang(filetype)
+        if not language then return end
+
+        -- check if parser exists and load it
+        if not vim.treesitter.language.add(language) then return end
+        -- enables syntax highlighting and other treesitter features
+        vim.treesitter.start(buf, language)
+
+        -- enables treesitter based folds
+        -- for more info on folds see `:help folds`
+        -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        -- vim.wo.foldmethod = 'expr'
+
+        -- enables treesitter based indentation
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end,
+    })
+    --]]
+
     -- nvim-treesitter health check reports install_dir with a trailing slash,
     -- but nvim's rtp entries have no trailing slash; add it explicitly to pass checkhealth.
     vim.opt.rtp:prepend(vim.fn.stdpath('data') .. '/site/')
