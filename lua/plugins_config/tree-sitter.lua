@@ -3,53 +3,56 @@ return { -- Highlight, edit, and navigate code
   lazy = false,
   build = ':TSUpdate',
   branch = 'main', -- Sets main module to use for opts
-  -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
-
-  -- Autoinstall languages that are not installed
-  auto_install = true,
-  highlight = {
-    enable = true,
-    -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-    --  If you are experiencing weird indenting issues, add the language to
-    --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-    additional_vim_regex_highlighting = false,
-  },
-  indent = { enable = true, disable = { 'ruby' } },
-  config = function()
-    -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-
-    -- Prefer git instead of curl in order to improve connectivity in some environments
-    require('nvim-treesitter.install').prefer_git = true
-    ---@diagnostic disable-next-line: missing-fields
-
-    -- This manually starts treesitter for specific filetypes
-    local parsers = {
+  opts = {
+    ensure_installed = {
       'bash',
       'c',
       'diff',
-      'html',
-      'lua',
-      'luadoc',
-      'markdown',
-      'markdown_inline',
-      'query',
-      'vim',
-      'vimdoc',
-      'rust',
-      'toml',
       'dockerfile',
       'go',
-      'json',
-      'make',
-      'python',
-      'regex',
-      'yaml',
-      'typescript',
+      'html',
       'javascript',
-    }
-    require('nvim-treesitter').install(parsers)
+      'json',
+      'lua',
+      'luadoc',
+      'make',
+      'markdown',
+      'markdown_inline',
+      'python',
+      'query',
+      'regex',
+      'rust',
+      'toml',
+      'typescript',
+      'vim',
+      'vimdoc',
+      'yaml',
+    },
+    -- Install parsers synchronously (only applied to `ensure_installed`)
+    sync_install = false,
+    -- Autoinstall languages that are not installed
+    auto_install = true,
+    highlight = {
+      enable = true,
+      -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
+      -- If you are experiencing weird indenting issues, add the language to
+      -- additional_vim_regex_highlighting and disable treesitter indent for it.
+      additional_vim_regex_highlighting = false,
+    },
+    indent = { enable = true, disable = { 'ruby' } },
+  },
+  config = function(_, opts)
+    -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+    local parser_install_dir = vim.fn.stdpath 'data' .. '/site'
+
+    -- Prefer git instead of curl in order to improve connectivity in some environments
+    require('nvim-treesitter.install').prefer_git = true
+    opts.parser_install_dir = parser_install_dir
+
+    -- nvim-treesitter expects the parser install directory on runtimepath.
+    vim.opt.rtp:prepend(parser_install_dir)
+    require('nvim-treesitter.configs').setup(opts)
+
     Autocmd('FileType', {
       callback = function(args)
         local buf, filetype = args.buf, args.match
@@ -59,8 +62,6 @@ return { -- Highlight, edit, and navigate code
 
         -- check if parser exists and load it
         if not vim.treesitter.language.add(language) then return end
-        -- enables syntax highlighting and other treesitter features
-        vim.treesitter.start(buf, language)
 
         -- enables treesitter based folds
         -- for more info on folds see `:help folds`
@@ -71,10 +72,6 @@ return { -- Highlight, edit, and navigate code
         vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
       end,
     })
-
-    -- nvim-treesitter health check reports install_dir with a trailing slash,
-    -- but nvim's rtp entries have no trailing slash; add it explicitly to pass checkhealth.
-    vim.opt.rtp:prepend(vim.fn.stdpath 'data' .. '/site/')
     -- config = function()
     --   local filetypes = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
     --   require('nvim-treesitter').install(filetypes)
