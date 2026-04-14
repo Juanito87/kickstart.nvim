@@ -4,6 +4,7 @@
 
 local claude_buf = nil
 local claude_win = nil
+local pr_draft = require 'plugins_config/pr_draft'
 
 local function is_valid()
   return claude_buf
@@ -54,3 +55,4 @@ end
 
 vim.keymap.set('n', '<leader>cct', toggle, { desc = '[C]ode [C]laude [T]oggle' })
 vim.keymap.set('v', '<leader>ccs', send_selection, { desc = '[C]ode [C]laude [S]end' })
+vim.keymap.set('n', '<leader>ccp', function() pr_draft.generate 'claude' end, { desc = '[C]ode [C]laude [P]R' })

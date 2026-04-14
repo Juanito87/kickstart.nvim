@@ -4,6 +4,7 @@
 
 local gemini_buf = nil
 local gemini_win = nil
+local pr_draft = require 'plugins_config/pr_draft'
 
 local function is_valid()
   return gemini_buf
@@ -49,3 +50,4 @@ end
 
 vim.keymap.set('n', '<leader>cgt', toggle, { desc = '[C]ode [G]emini [T]oggle' })
 vim.keymap.set('v', '<leader>cgs', send_selection, { desc = '[C]ode [G]emini [S]end' })
+vim.keymap.set('n', '<leader>cgp', function() pr_draft.generate 'gemini' end, { desc = '[C]ode [G]emini [P]R' })
