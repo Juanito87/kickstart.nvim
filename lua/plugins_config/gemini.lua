@@ -4,6 +4,9 @@
 
 local gemini_buf = nil
 local gemini_win = nil
+local ai_terminal = require 'plugins_config/ai_terminal'
+local pr_draft = require 'plugins_config/pr_draft'
+local explain_selection = require 'plugins_config/explain_selection'
 
 local function is_valid()
   return gemini_buf
@@ -17,6 +20,7 @@ local function open()
   vim.cmd 'terminal gemini'
   gemini_buf = vim.api.nvim_get_current_buf()
   gemini_win = vim.api.nvim_get_current_win()
+  ai_terminal.setup(gemini_buf)
   vim.cmd 'startinsert'
 end
 
@@ -49,3 +53,5 @@ end
 
 vim.keymap.set('n', '<leader>cgt', toggle, { desc = '[C]ode [G]emini [T]oggle' })
 vim.keymap.set('v', '<leader>cgs', send_selection, { desc = '[C]ode [G]emini [S]end' })
+vim.keymap.set('n', '<leader>cgp', function() pr_draft.generate 'gemini' end, { desc = '[C]ode [G]emini [P]R' })
+vim.keymap.set('v', '<leader>cge', function() explain_selection.generate 'gemini' end, { desc = '[C]ode [G]emini [E]xplain' })
