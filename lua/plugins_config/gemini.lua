@@ -4,6 +4,7 @@
 
 local gemini_buf = nil
 local gemini_win = nil
+local ai_terminal = require 'plugins_config/ai_terminal'
 local pr_draft = require 'plugins_config/pr_draft'
 local explain_selection = require 'plugins_config/explain_selection'
 
@@ -19,6 +20,7 @@ local function open()
   vim.cmd 'terminal gemini'
   gemini_buf = vim.api.nvim_get_current_buf()
   gemini_win = vim.api.nvim_get_current_win()
+  ai_terminal.setup(gemini_buf)
   vim.cmd 'startinsert'
 end
 

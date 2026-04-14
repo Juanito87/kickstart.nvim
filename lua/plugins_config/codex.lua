@@ -4,6 +4,7 @@
 
 local codex_buf = nil
 local codex_win = nil
+local ai_terminal = require 'plugins_config/ai_terminal'
 local pr_draft = require 'plugins_config/pr_draft'
 local explain_selection = require 'plugins_config/explain_selection'
 
@@ -19,6 +20,7 @@ local function open()
   vim.cmd 'terminal codex'
   codex_buf = vim.api.nvim_get_current_buf()
   codex_win = vim.api.nvim_get_current_win()
+  ai_terminal.setup(codex_buf)
   vim.cmd 'startinsert'
 end
 

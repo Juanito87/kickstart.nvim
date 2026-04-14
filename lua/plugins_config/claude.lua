@@ -4,6 +4,7 @@
 
 local claude_buf = nil
 local claude_win = nil
+local ai_terminal = require 'plugins_config/ai_terminal'
 local pr_draft = require 'plugins_config/pr_draft'
 local explain_selection = require 'plugins_config/explain_selection'
 
@@ -19,6 +20,7 @@ local function open()
   vim.cmd 'terminal claude'
   claude_buf = vim.api.nvim_get_current_buf()
   claude_win = vim.api.nvim_get_current_win()
+  ai_terminal.setup(claude_buf)
   vim.cmd 'startinsert'
 end
 
