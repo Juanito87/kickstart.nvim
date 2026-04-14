@@ -5,6 +5,7 @@
 local codex_buf = nil
 local codex_win = nil
 local pr_draft = require 'plugins_config/pr_draft'
+local explain_selection = require 'plugins_config/explain_selection'
 
 local function is_valid()
   return codex_buf
@@ -56,3 +57,4 @@ end
 vim.keymap.set('n', '<leader>cot', toggle, { desc = '[C]ode [O]penAI [T]oggle' })
 vim.keymap.set('v', '<leader>cos', send_selection, { desc = '[C]ode [O]penAI [S]end' })
 vim.keymap.set('n', '<leader>cop', function() pr_draft.generate 'codex' end, { desc = '[C]ode [O]penAI [P]R' })
+vim.keymap.set('v', '<leader>coe', function() explain_selection.generate 'codex' end, { desc = '[C]ode [O]penAI [E]xplain' })
