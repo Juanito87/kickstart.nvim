@@ -1,0 +1,28 @@
+name: Headless Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  headless-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Neovim
+        run: |
+          curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz
+          sudo rm -rf /opt/nvim-linux-x86_64
+          sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+          sudo ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
+
+      - name: Verify Neovim
+        run: nvim --version | sed -n '1,3p'
+
+      - name: Run Headless Tests
+        run: ./scripts/test.sh
