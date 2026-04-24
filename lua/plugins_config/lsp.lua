@@ -282,12 +282,9 @@ return {
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        'ansible-lint',
-        'yamllint',
         'terraform',
         'staticcheck',
-        'rustfmt', -- Rust formatter
-        'prettier', -- JS/MD formatter
+        'prettier',
         'shellcheck',
         'markdownlint',
         'luacheck',
