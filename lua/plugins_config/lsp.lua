@@ -282,8 +282,9 @@ return {
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        'rustfmt', -- Rust formatter
-        'prettier', -- JS/MD formatter
+        'terraform',
+        'staticcheck',
+        'prettier',
         'shellcheck',
         'markdownlint',
         'luacheck',
@@ -328,7 +329,6 @@ return {
     'nvimtools/none-ls.nvim',
     dependencies = {
       'nvim-lua/plenary.nvim',
-      'nvimtools/none-ls-extras.nvim', -- provides shellcheck, ruff (removed from core none-ls)
     },
     config = function()
       local null_ls = require 'null-ls'
@@ -348,8 +348,6 @@ return {
           -- require("none-ls.diagnostics.ruff"),
           -- Go (staticcheck)
           null_ls.builtins.diagnostics.staticcheck,
-          -- Lua
-          null_ls.builtins.diagnostics.luacheck,
           -- Markdown
           null_ls.builtins.diagnostics.markdownlint,
         },

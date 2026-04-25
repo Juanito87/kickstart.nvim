@@ -5,19 +5,18 @@
 local codex_buf = nil
 local codex_win = nil
 local ai_explain = require 'plugins_config.ai_explain'
+local ai_terminal = require 'plugins_config/ai_terminal'
+local pr_draft = require 'plugins_config/pr_draft'
+local explain_selection = require 'plugins_config/explain_selection'
 
-local function is_valid()
-  return codex_buf
-    and vim.api.nvim_buf_is_valid(codex_buf)
-    and codex_win
-    and vim.api.nvim_win_is_valid(codex_win)
-end
+local function is_valid() return codex_buf and vim.api.nvim_buf_is_valid(codex_buf) and codex_win and vim.api.nvim_win_is_valid(codex_win) end
 
 local function open()
   vim.cmd 'vsplit'
   vim.cmd 'terminal codex'
   codex_buf = vim.api.nvim_get_current_buf()
   codex_win = vim.api.nvim_get_current_win()
+  ai_terminal.setup(codex_buf)
   vim.cmd 'startinsert'
 end
 
@@ -45,9 +44,7 @@ local function send_selection()
   end
   local text = table.concat(lines, '\n')
 
-  if not is_valid() then
-    open()
-  end
+  if not is_valid() then open() end
 
   local chan = vim.bo[codex_buf].channel
   vim.api.nvim_chan_send(chan, text .. '\n')
@@ -56,3 +53,5 @@ end
 vim.keymap.set('n', '<leader>cot', toggle, { desc = '[C]ode [O]penAI [T]oggle' })
 vim.keymap.set('v', '<leader>cos', send_selection, { desc = '[C]ode [O]penAI [S]end' })
 vim.keymap.set('v', '<leader>coe', function() ai_explain.explain_visual 'codex' end, { desc = '[C]ode [O]penAI [E]xplain' })
+vim.keymap.set('n', '<leader>cop', function() pr_draft.generate 'codex' end, { desc = '[C]ode [O]penAI [P]R' })
+vim.keymap.set('v', '<leader>coe', function() explain_selection.generate 'codex' end, { desc = '[C]ode [O]penAI [E]xplain' })

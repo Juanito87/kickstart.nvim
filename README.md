@@ -114,6 +114,16 @@ nvim
 That's it! Lazy will install all the plugins you have. Use `:Lazy` to view
 the current plugin status. Hit `q` to close the window.
 
+## Testing
+
+Run the headless validation suite with:
+
+```sh
+./scripts/test.sh
+```
+
+The test runner copies this config into a temporary `NVIM_APPNAME`, installs plugins into temporary XDG directories, and then boots Neovim headlessly. This catches startup regressions and broken local plugin specs without touching your normal Neovim state.
+
 #### Read The Friendly Documentation
 
 Read through the `init.lua` file in your configuration folder for more

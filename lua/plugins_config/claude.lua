@@ -5,19 +5,18 @@
 local claude_buf = nil
 local claude_win = nil
 local ai_explain = require 'plugins_config.ai_explain'
+local ai_terminal = require 'plugins_config/ai_terminal'
+local pr_draft = require 'plugins_config/pr_draft'
+local explain_selection = require 'plugins_config/explain_selection'
 
-local function is_valid()
-  return claude_buf
-    and vim.api.nvim_buf_is_valid(claude_buf)
-    and claude_win
-    and vim.api.nvim_win_is_valid(claude_win)
-end
+local function is_valid() return claude_buf and vim.api.nvim_buf_is_valid(claude_buf) and claude_win and vim.api.nvim_win_is_valid(claude_win) end
 
 local function open()
   vim.cmd 'vsplit'
   vim.cmd 'terminal claude'
   claude_buf = vim.api.nvim_get_current_buf()
   claude_win = vim.api.nvim_get_current_win()
+  ai_terminal.setup(claude_buf)
   vim.cmd 'startinsert'
 end
 
@@ -45,9 +44,7 @@ local function send_selection()
   end
   local text = table.concat(lines, '\n')
 
-  if not is_valid() then
-    open()
-  end
+  if not is_valid() then open() end
 
   local chan = vim.bo[claude_buf].channel
   vim.api.nvim_chan_send(chan, text .. '\n')
@@ -56,3 +53,5 @@ end
 vim.keymap.set('n', '<leader>cct', toggle, { desc = '[C]ode [C]laude [T]oggle' })
 vim.keymap.set('v', '<leader>ccs', send_selection, { desc = '[C]ode [C]laude [S]end' })
 vim.keymap.set('v', '<leader>cce', function() ai_explain.explain_visual 'claude' end, { desc = '[C]ode [C]laude [E]xplain' })
+vim.keymap.set('n', '<leader>ccp', function() pr_draft.generate 'claude' end, { desc = '[C]ode [C]laude [P]R' })
+vim.keymap.set('v', '<leader>cce', function() explain_selection.generate 'claude' end, { desc = '[C]ode [C]laude [E]xplain' })

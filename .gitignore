@@ -1,5 +1,6 @@
 tags
 test.sh
+!scripts/test.sh
 .luarc.json
 nvim
 .claude
