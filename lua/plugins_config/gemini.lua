@@ -4,6 +4,7 @@
 
 local gemini_buf = nil
 local gemini_win = nil
+local ai_explain = require 'plugins_config.ai_explain'
 
 local function is_valid()
   return gemini_buf
@@ -49,3 +50,4 @@ end
 
 vim.keymap.set('n', '<leader>cgt', toggle, { desc = '[C]ode [G]emini [T]oggle' })
 vim.keymap.set('v', '<leader>cgs', send_selection, { desc = '[C]ode [G]emini [S]end' })
+vim.keymap.set('v', '<leader>cge', function() ai_explain.explain_visual 'gemini' end, { desc = '[C]ode [G]emini [E]xplain' })

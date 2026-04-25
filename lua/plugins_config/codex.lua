@@ -4,6 +4,7 @@
 
 local codex_buf = nil
 local codex_win = nil
+local ai_explain = require 'plugins_config.ai_explain'
 
 local function is_valid()
   return codex_buf
@@ -54,3 +55,4 @@ end
 
 vim.keymap.set('n', '<leader>cot', toggle, { desc = '[C]ode [O]penAI [T]oggle' })
 vim.keymap.set('v', '<leader>cos', send_selection, { desc = '[C]ode [O]penAI [S]end' })
+vim.keymap.set('v', '<leader>coe', function() ai_explain.explain_visual 'codex' end, { desc = '[C]ode [O]penAI [E]xplain' })

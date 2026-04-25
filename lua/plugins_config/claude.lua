@@ -4,6 +4,7 @@
 
 local claude_buf = nil
 local claude_win = nil
+local ai_explain = require 'plugins_config.ai_explain'
 
 local function is_valid()
   return claude_buf
@@ -54,3 +55,4 @@ end
 
 vim.keymap.set('n', '<leader>cct', toggle, { desc = '[C]ode [C]laude [T]oggle' })
 vim.keymap.set('v', '<leader>ccs', send_selection, { desc = '[C]ode [C]laude [S]end' })
+vim.keymap.set('v', '<leader>cce', function() ai_explain.explain_visual 'claude' end, { desc = '[C]ode [C]laude [E]xplain' })
