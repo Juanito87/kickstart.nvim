@@ -101,6 +101,24 @@ function M.run()
     expect(failures, type(health.check) == 'function', "health module does not expose a 'check' function")
   end
 
+  local healthTests = safeRequire(failures, 'tests.health_config')
+  if healthTests then
+    local ok, err = pcall(healthTests.run)
+    expect(failures, ok, string.format("health config tests failed: %s", err))
+  end
+
+  local treeSitterTests = safeRequire(failures, 'tests.tree_sitter_config')
+  if treeSitterTests then
+    local ok, err = pcall(treeSitterTests.run)
+    expect(failures, ok, string.format("tree-sitter config tests failed: %s", err))
+  end
+
+  local aiTests = safeRequire(failures, 'tests.ai_config')
+  if aiTests then
+    local ok, err = pcall(aiTests.run)
+    expect(failures, ok, string.format("ai config tests failed: %s", err))
+  end
+
   for _, moduleName in ipairs(pluginSpecModules) do
     validatePluginSpec(failures, moduleName)
   end

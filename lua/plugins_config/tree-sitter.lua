@@ -59,13 +59,17 @@ return { -- Highlight, edit, and navigate code
     Autocmd('FileType', {
       callback = function(args)
         local buf, filetype = args.buf, args.match
+        if not filetype or filetype == '' then return end
+
         local language = vim.treesitter.language.get_lang(filetype)
         if not language then return end
 
         local ok = pcall(vim.treesitter.language.add, language)
         if not ok then return end
 
-        vim.treesitter.start(buf, language)
+        local started = pcall(vim.treesitter.start, buf, language)
+        if not started then return end
+
         vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
       end,
     })

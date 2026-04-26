@@ -70,14 +70,25 @@ function M.create_session(provider_name)
   local provider = providers.get(provider_name)
   assert(provider, 'Unknown AI provider: ' .. provider_name)
 
-  local state = {
-    bufnr = nil,
-    winid = nil,
-  }
+  local states = {}
+
+  local function state_for_current_tab()
+    local tabpage = vim.api.nvim_get_current_tabpage()
+    local state = states[tabpage]
+    if state then return state end
+
+    state = {
+      bufnr = nil,
+      winid = nil,
+    }
+    states[tabpage] = state
+    return state
+  end
 
   local session = {}
 
   function session.open()
+    local state = state_for_current_tab()
     if state.bufnr and vim.api.nvim_buf_is_valid(state.bufnr) and (not state.winid or not vim.api.nvim_win_is_valid(state.winid)) then
       reopen_terminal(state)
       return true
@@ -87,6 +98,7 @@ function M.create_session(provider_name)
   end
 
   function session.toggle()
+    local state = state_for_current_tab()
     if state.winid and vim.api.nvim_win_is_valid(state.winid) then
       vim.api.nvim_win_close(state.winid, false)
       state.winid = nil
@@ -108,6 +120,7 @@ function M.create_session(provider_name)
       return
     end
 
+    local state = state_for_current_tab()
     if not is_valid(state) and not session.open() then return end
 
     local chan = vim.bo[state.bufnr].channel

@@ -4,7 +4,16 @@ return {
     'nvim-lua/plenary.nvim',
   },
   config = function()
-    require('harpoon').setup {}
+    local dataPath = vim.fn.stdpath 'data'
+    local canPersist = vim.fn.isdirectory(dataPath) == 1 and vim.fn.filewritable(dataPath) == 2
+
+    require('harpoon').setup {
+      global_settings = {
+        save_on_change = canPersist,
+        save_on_toggle = canPersist,
+      },
+    }
+
     local mark = require 'harpoon.mark'
     local ui = require 'harpoon.ui'
     --

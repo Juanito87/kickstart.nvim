@@ -6,6 +6,8 @@ local function expect(condition, message)
   if not condition then fail(message) end
 end
 
+local filetype_callback
+
 local function clear_modules()
   package.loaded['plugins_config.tree-sitter'] = nil
   package.loaded['nvim-treesitter'] = nil
@@ -17,7 +19,11 @@ local function clear_modules()
 end
 
 local function stub_runtime()
-  _G.Autocmd = function(_, opts) expect(type(opts) == 'table' and type(opts.callback) == 'function', 'tree-sitter autocommand callback missing') end
+  filetype_callback = nil
+  _G.Autocmd = function(_, opts)
+    expect(type(opts) == 'table' and type(opts.callback) == 'function', 'tree-sitter autocommand callback missing')
+    filetype_callback = opts.callback
+  end
 
   vim.treesitter = vim.treesitter or {}
   vim.treesitter.language = vim.treesitter.language or {}
@@ -113,11 +119,78 @@ local function run_headless_master_shape()
   expect(calls.setup.ensure_installed == nil, 'headless tree-sitter path should skip ensure_installed')
 end
 
+local function run_filetype_callback_success()
+  clear_modules()
+  set_headless(false)
+  stub_runtime()
+
+  local started = {}
+  vim.treesitter.language.get_lang = function(filetype) return filetype end
+  vim.treesitter.language.add = function(language)
+    started.added = language
+    return true
+  end
+  vim.treesitter.start = function(buf, language)
+    started.buf = buf
+    started.language = language
+  end
+
+  package.preload['nvim-treesitter.configs'] = function()
+    return {
+      setup = function() end,
+    }
+  end
+
+  local spec = require 'plugins_config.tree-sitter'
+  spec.config()
+
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.bo[buf].indentexpr = ''
+  filetype_callback { buf = buf, match = 'lua' }
+
+  expect(started.buf == buf, 'filetype callback did not start tree-sitter for supported filetype')
+  expect(started.language == 'lua', 'filetype callback used the wrong language')
+  expect(vim.bo[buf].indentexpr ~= '', 'filetype callback did not enable indentexpr after successful start')
+end
+
+local function run_filetype_callback_skips_parserless_filetypes()
+  clear_modules()
+  set_headless(false)
+  stub_runtime()
+
+  local attempts = 0
+  vim.treesitter.language.get_lang = function(filetype) return filetype end
+  vim.treesitter.language.add = function() return true end
+  vim.treesitter.start = function()
+    attempts = attempts + 1
+    error 'missing parser'
+  end
+
+  package.preload['nvim-treesitter.configs'] = function()
+    return {
+      setup = function() end,
+    }
+  end
+
+  local spec = require 'plugins_config.tree-sitter'
+  spec.config()
+
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.bo[buf].indentexpr = ''
+  local ok = pcall(filetype_callback, { buf = buf, match = 'fidget' })
+
+  expect(ok, 'filetype callback raised when parser startup failed')
+  expect(attempts == 1, 'filetype callback did not attempt tree-sitter startup for parserless filetype')
+  expect(vim.bo[buf].indentexpr == '', 'filetype callback should not set indentexpr when startup fails')
+end
+
 function M.run()
   stub_runtime()
   run_master_shape()
   run_main_shape()
   run_headless_master_shape()
+  run_filetype_callback_success()
+  run_filetype_callback_skips_parserless_filetypes()
   print 'Tree-sitter config tests passed'
 end
 
