@@ -24,6 +24,4 @@ export XDG_CACHE_HOME="$tmp_dir/cache"
 cd "$tmp_dir/config/$app_name"
 
 nvim --headless \
-  "+Lazy! sync" \
-  "+lua require('tests.runner').run()" \
-  +qa
+  "+lua require('tests.runner').run(); vim.cmd('cquit 0')"

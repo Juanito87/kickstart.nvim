@@ -3,55 +3,28 @@
 local M = {}
 
 local tmpfile = '/tmp/pr-draft.md'
+local providers = require 'plugins_config.ai_providers'
 
-local providers = {
-  claude = {
-    cmd = function(repo_root, prompt)
-      return { 'claude', '-p', prompt, '--output-format', 'text' }
-    end,
-  },
-  codex = {
-    cmd = function(repo_root, prompt)
-      return { 'codex', 'exec', '-C', repo_root, '--skip-git-repo-check', prompt }
-    end,
-  },
-  gemini = {
-    cmd = function(repo_root, prompt)
-      return { 'gemini', '--prompt', prompt, '--output-format', 'text' }
-    end,
-  },
-}
-
-local function notify(msg, level)
-  vim.notify(msg, level or vim.log.levels.INFO, { title = 'PR Draft' })
-end
+local function notify(msg, level) vim.notify(msg, level or vim.log.levels.INFO, { title = 'PR Draft' }) end
 
 local function system(args, cwd)
   local result = vim.system(args, { cwd = cwd, text = true }):wait()
   return result
 end
 
-local function git(args, cwd)
-  return system(vim.list_extend({ 'git' }, args), cwd)
-end
+local function git(args, cwd) return system(vim.list_extend({ 'git' }, args), cwd) end
 
-local function trim(text)
-  return (text or ''):gsub('^%s+', ''):gsub('%s+$', '')
-end
+local function trim(text) return (text or ''):gsub('^%s+', ''):gsub('%s+$', '') end
 
 local function repo_root()
   local result = git({ 'rev-parse', '--show-toplevel' }, vim.loop.cwd())
-  if result.code ~= 0 then
-    return nil, trim(result.stderr)
-  end
+  if result.code ~= 0 then return nil, trim(result.stderr) end
   return trim(result.stdout), nil
 end
 
 local function branch_name(cwd)
   local result = git({ 'rev-parse', '--abbrev-ref', 'HEAD' }, cwd)
-  if result.code ~= 0 then
-    return nil, trim(result.stderr)
-  end
+  if result.code ~= 0 then return nil, trim(result.stderr) end
   return trim(result.stdout), nil
 end
 
@@ -81,19 +54,17 @@ local function write_draft(branch, body)
   vim.fn.writefile(lines, tmpfile)
 end
 
-local function open_draft()
-  vim.cmd('edit ' .. vim.fn.fnameescape(tmpfile))
-end
+local function open_draft() vim.cmd('edit ' .. vim.fn.fnameescape(tmpfile)) end
 
 function M.generate(provider_name)
-  local provider = providers[provider_name]
+  local provider = providers.get(provider_name)
   if not provider then
     notify('Unsupported provider: ' .. provider_name, vim.log.levels.ERROR)
     return
   end
 
-  if vim.fn.executable(provider_name) ~= 1 then
-    notify(provider_name .. ' is not installed or not on PATH', vim.log.levels.ERROR)
+  if vim.fn.executable(provider.executable) ~= 1 then
+    notify(provider.label .. ' CLI is not installed or not on PATH', vim.log.levels.ERROR)
     return
   end
 
@@ -110,7 +81,7 @@ function M.generate(provider_name)
   end
 
   local prompt = build_prompt(branch)
-  local cmd = provider.cmd(root, prompt)
+  local cmd = provider.pr_cmd(root, prompt)
 
   notify('Generating PR draft with ' .. provider_name .. '...')
 
@@ -118,9 +89,7 @@ function M.generate(provider_name)
     vim.schedule(function()
       if result.code ~= 0 then
         local err = trim(result.stderr)
-        if err == '' then
-          err = 'provider exited with code ' .. result.code
-        end
+        if err == '' then err = 'provider exited with code ' .. result.code end
         notify(provider_name .. ' failed: ' .. err, vim.log.levels.ERROR)
         return
       end
