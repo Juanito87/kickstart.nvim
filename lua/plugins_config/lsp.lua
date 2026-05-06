@@ -341,7 +341,12 @@ return {
           -- Ansible
           null_ls.builtins.diagnostics.ansiblelint,
           -- YAML
-          null_ls.builtins.diagnostics.yamllint,
+          null_ls.builtins.diagnostics.yamllint.with {
+            extra_args = {
+              '-d',
+              'extends: default\nrules:\n  line-length:\n    max: 260\n',
+            },
+          },
           -- Terraform
           null_ls.builtins.diagnostics.terraform_validate,
           -- Python (via none-ls-extras)
