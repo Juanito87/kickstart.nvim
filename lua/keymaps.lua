@@ -73,15 +73,15 @@ vim.keymap.set('n', '<C-C>', '<C-W><C-C>', { desc = 'Close window with ctrl+c' }
 -- Save file
 vim.keymap.set({ 'i', 'v', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
 
--- Function and remap to toggle relative numbers.
-vim.keymap.set('n', '<leader>nr', function()
-  vim.o.nu = false
-  vim.opt.relativenumber = false
-end, { desc = 'Disable number and relative number' })
-vim.keymap.set('n', '<leader>tn', function()
-  vim.o.nu = true
-  vim.opt.relativenumber = true
-end, { desc = 'Enable number and relative number' })
+vim.keymap.set('n', '<leader>tr', function()
+  local enabled = not vim.opt.relativenumber:get()
+  vim.opt.relativenumber = enabled
+  vim.opt.number = enabled
+end, { desc = '[T]oggle [r]elative and absolute line numbers' })
+
+vim.keymap.set('n', '<leader>ts', function()
+  vim.opt.signcolumn = vim.o.signcolumn == 'yes' and 'no' or 'yes'
+end, { desc = '[T]oggle [s]ign column (git + diagnostic icons)' })
 
 -- Clean up
 vim.keymap.set('n', '<leader>dw', ':%s/\\s\\+$//e<CR>', { desc = 'Clean trailing whitespace in the document' })
