@@ -2,7 +2,9 @@
 
 local M = {}
 
-local tmpfile = '/tmp/pr-draft.md'
+local function draft_path(branch)
+  return '/tmp/pr-' .. branch:gsub('/', '-') .. '.md'
+end
 
 local providers = {
   claude = {
@@ -55,34 +57,39 @@ local function branch_name(cwd)
   return trim(result.stdout), nil
 end
 
-local function build_prompt(branch)
+local function build_prompt()
   return table.concat({
-    'Draft the body for a GitHub pull request for the current repository.',
+    'Draft a GitHub pull request for the current repository.',
     'Inspect the current branch diff, staged and unstaged changes, and recent commits yourself.',
-    'The PR title is fixed and must be exactly this branch name: ' .. branch .. '.',
-    'Return markdown for the PR body only.',
-    'Keep it concise and accurate.',
-    'Use exactly these sections:',
+    'Return exactly this format — no code fences, no preamble, nothing else:',
+    '',
+    '<Title>',
+    '',
     '## Summary',
     '- ...',
     '',
     '## Testing',
     '- ...',
+    '',
+    'Where <Title> is a single concise human-readable PR title: sentence case, imperative mood,',
+    'no trailing punctuation, at most 70 characters, not the raw branch name.',
+    'Keep the body concise and accurate.',
   }, '\n')
 end
 
-local function write_draft(branch, body)
-  local lines = {
-    branch,
-    '',
-  }
-
-  vim.list_extend(lines, vim.split(trim(body), '\n', { plain = true }))
-  vim.fn.writefile(lines, tmpfile)
+local function write_draft(path, content)
+  local lines = vim.split(trim(content), '\n', { plain = true })
+  -- Guard: if the AI skipped the title and started with a heading, we'd have
+  -- no plain-text first line for `ghpr` to use as --title. Detect and warn.
+  local first = trim(lines[1] or '')
+  if first == '' or first:sub(1, 1) == '#' then
+    notify('PR draft title missing — first line should be a plain-text title', vim.log.levels.WARN)
+  end
+  vim.fn.writefile(lines, path)
 end
 
-local function open_draft()
-  vim.cmd('edit ' .. vim.fn.fnameescape(tmpfile))
+local function open_draft(path)
+  vim.cmd('edit ' .. vim.fn.fnameescape(path))
 end
 
 function M.generate(provider_name)
@@ -109,7 +116,8 @@ function M.generate(provider_name)
     return
   end
 
-  local prompt = build_prompt(branch)
+  local path = draft_path(branch)
+  local prompt = build_prompt()
   local cmd = provider.cmd(root, prompt)
 
   notify('Generating PR draft with ' .. provider_name .. '...')
@@ -125,15 +133,15 @@ function M.generate(provider_name)
         return
       end
 
-      local body = trim(result.stdout)
-      if body == '' then
-        notify(provider_name .. ' returned an empty PR body', vim.log.levels.ERROR)
+      local content = trim(result.stdout)
+      if content == '' then
+        notify(provider_name .. ' returned an empty PR draft', vim.log.levels.ERROR)
         return
       end
 
-      write_draft(branch, body)
-      open_draft()
-      notify('PR draft written to ' .. tmpfile)
+      write_draft(path, content)
+      open_draft(path)
+      notify('PR draft written to ' .. path)
     end)
   end)
 end
