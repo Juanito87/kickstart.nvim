@@ -7,7 +7,13 @@ return {
       local lint = require 'lint'
       lint.linters_by_ft = {
         lua = { 'luacheck' },
-        markdown = { 'markdownlint' }, -- Make sure to install `markdownlint` via mason / npm
+        -- sh/bash: pairs with beautysh formatter; shellcheck binary installed via apt
+        sh = { 'shellcheck' },
+        bash = { 'shellcheck' },
+        -- jinja2: pairs with djlint formatter; djlint also lints template syntax
+        jinja2 = { 'djlint' },
+        -- markdown is already linted by none-ls (markdownlint) — removed here to
+        -- avoid duplicate diagnostics showing twice in the same buffer
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,

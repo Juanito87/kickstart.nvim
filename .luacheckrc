@@ -1,2 +1,4 @@
 globals = { "vim", "Autocmd", "Augroup", "Fugitive" }
-max_line_length = 200
+
+-- Line length matches .stylua.toml column_width = 160 (formatter limit).
+max_line_length = 160
