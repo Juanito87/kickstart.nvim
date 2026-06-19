@@ -1,0 +1,20 @@
+upstream_title	fork_module	notes
+Setting options	lua/options.lua
+Basic Keymaps	lua/keymaps.lua
+Basic Autocommands	lua/autocommands.lua
+Intro to `vim.pack`	lua/lazy-install.lua	fork uses lazy.nvim instead of vim.pack
+Installing and Configuring Plugins	lua/lazy-config.lua	upstream merged into lazy.setup block
+Colorscheme	lua/plugins_config/colortheme.lua
+mini.nvim	lua/plugins_config/mini.lua
+Fuzzy Finder (files, lsp, etc)	lua/plugins_config/telescope.lua
+LSP Configuration	lua/plugins_config/lsp.lua
+Formatting	lua/plugins_config/conform.lua
+Snippet Engine	lua/plugins_config/autocomplete.lua	combined with Autocomplete Engine
+Autocomplete Engine	lua/plugins_config/autocomplete.lua	combined with Snippet Engine
+Configure Treesitter	lua/plugins_config/tree-sitter.lua
+plugins:gitsigns	lua/plugins_config/gitsigns.lua	upstream optional module
+plugins:lint	lua/plugins_config/lint.lua	upstream optional module
+plugins:indent_line	lua/plugins_config/indent_line.lua	upstream optional module
+plugins:debug	lua/plugins_config/disabled/debug.lua	disabled in fork
+plugins:neo-tree	lua/plugins_config/disabled/neo-tree.lua	disabled in fork
+plugins:autopairs	lua/plugins_config/disabled/autopairs.lua	disabled in fork
