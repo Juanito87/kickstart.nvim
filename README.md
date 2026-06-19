@@ -379,7 +379,7 @@ git push origin upstream
 
 ```bash
 git checkout staging
-git merge upstream        # conflicts are expected and intentional
+git merge upstream        # conflicts are expected; add --allow-unrelated-histories if branches have no common ancestor
 # resolve conflicts, then test:
 nvim --headless "+Lazy! sync" +qa
 scripts/test.sh

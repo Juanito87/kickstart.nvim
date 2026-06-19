@@ -107,11 +107,12 @@ if [[ $check_only -eq 0 ]]; then
     echo ""
     echo "# Upstream Sync Map"
     echo ""
-    echo "| Upstream title | Upstream source | Fork module | Notes |"
+    echo "| Upstream title | Upstream location:line | Fork module | Notes |"
     echo "|---|---|---|---|"
 
     # init.lua rows — iterate in file order (already ordered by line number)
     while IFS=$'\t' read -r linenum title; do
+      [[ -z "$linenum" ]] && continue
       # Look up fork_module and notes from the map
       fork_module="$(awk -F'\t' -v t="$title" 'NR>1 && $1==t {print $2; exit}' "$map_file")"
       notes="$(awk -F'\t' -v t="$title" 'NR>1 && $1==t {print $3; exit}' "$map_file")"

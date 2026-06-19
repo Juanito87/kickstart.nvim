@@ -2,7 +2,7 @@
 
 # Upstream Sync Map
 
-| Upstream title | Upstream source | Fork module | Notes |
+| Upstream title | Upstream location:line | Fork module | Notes |
 |---|---|---|---|
 | Setting options | `init.lua:104` | `lua/options.lua` |  |
 | Basic Keymaps | `init.lua:181` | `lua/keymaps.lua` |  |
