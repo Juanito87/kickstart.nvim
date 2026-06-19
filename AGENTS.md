@@ -102,6 +102,11 @@ lua/
 └── custom/             # User customizations
 ```
 
+### Upstream Sync
+- Upstream section titles → fork modules: see [`UPSTREAM_SYNC.md`](UPSTREAM_SYNC.md)
+- Edit [`scripts/upstream-map.tsv`](scripts/upstream-map.tsv) when upstream sections change
+- Run `scripts/sync-upstream-titles.sh --check` to verify the mapping is current
+
 ### Plugin Management
 - **Manager**: lazy.nvim
 - **Commands**: `:Lazy` (status), `:Lazy update`, `:Lazy clean`, `:Lazy profile`
