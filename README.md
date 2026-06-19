@@ -354,3 +354,53 @@ asdf reshim neovim
 </details>
 
 </details>
+
+## Upstream Sync Workflow
+
+This fork tracks canonical [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) via
+three branches:
+
+| Branch | Purpose |
+|--------|---------|
+| `main` | Clean modular config (lazy.nvim). Never directly merged from upstream. |
+| `staging` | Merge/test target. Absorbs upstream; discarded when done. Never merged back to `main`. |
+| `upstream` | Manual mirror of canonical kickstart.nvim in its native layout. |
+
+### Refreshing the `upstream` branch
+
+```bash
+git fetch kickstart
+git checkout upstream
+git reset --hard kickstart/master
+git push origin upstream
+```
+
+### Merging upstream into staging
+
+```bash
+git checkout staging
+git merge upstream        # conflicts are expected and intentional
+# resolve conflicts, then test:
+nvim --headless "+Lazy! sync" +qa
+scripts/test.sh
+```
+
+Once confirmed, port individual changes to the appropriate `lua/plugins_config/*.lua` module
+on a feature branch off `main` — do not merge `staging` into `main`.
+
+### Tracking upstream changes (title manifest)
+
+Upstream organises its `init.lua` using `-- [[ Section Title ]]` headers. The mapping from
+those titles to modules in this fork is tracked in `scripts/upstream-map.tsv`.
+
+To check for drift (new or removed upstream sections):
+
+```bash
+scripts/sync-upstream-titles.sh --check   # exits non-zero if drift exists
+scripts/sync-upstream-titles.sh           # regenerates UPSTREAM_SYNC.md
+```
+
+See [`UPSTREAM_SYNC.md`](UPSTREAM_SYNC.md) for the current mapping table.
+
+When a new upstream section appears in the drift report, add a row to
+`scripts/upstream-map.tsv` and re-run the script to refresh the manifest.
