@@ -62,11 +62,12 @@ return { -- Autoformat
     },
     formatters = {
       -- Light, low-churn YAML: 2-space, sequences indented, preserve quotes and existing
-      -- line breaks. Matches the infra repos' de-facto style without heavy reflow.
+      -- line breaks. include_document_start keeps the leading --- on files that have it.
+      -- Matches the infra repos' de-facto style without heavy reflow.
       yamlfmt = {
         prepend_args = {
           '-formatter',
-          'indent=2,retain_line_breaks_single=true,scan_folded_as_literal=true,trim_trailing_whitespace=true',
+          'indent=2,retain_line_breaks_single=true,scan_folded_as_literal=true,trim_trailing_whitespace=true,include_document_start=true',
         },
       },
     },
