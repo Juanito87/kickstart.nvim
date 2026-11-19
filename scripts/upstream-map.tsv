@@ -12,7 +12,6 @@ Formatting	lua/plugins_config/conform.lua
 Snippet Engine	lua/plugins_config/autocomplete.lua	combined with Autocomplete Engine
 Autocomplete Engine	lua/plugins_config/autocomplete.lua	combined with Snippet Engine
 Configure Treesitter	lua/plugins_config/tree-sitter.lua
-plugins:gitsigns	lua/plugins_config/gitsigns.lua	upstream optional module
 plugins:lint	lua/plugins_config/lint.lua	upstream optional module
 plugins:indent_line	lua/plugins_config/indent_line.lua	upstream optional module
 plugins:debug	lua/plugins_config/disabled/debug.lua	disabled in fork
