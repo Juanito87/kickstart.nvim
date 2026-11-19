@@ -1,6 +1,13 @@
 return { -- Collection of various small independent plugins/modules
   'echasnovski/mini.nvim',
   config = function()
+    -- Icons for plugins that would otherwise need nvim-web-devicons (e.g. telescope)
+    if vim.g.have_nerd_font then
+      local icons = require 'mini.icons'
+      icons.setup()
+      icons.mock_nvim_web_devicons()
+    end
+
     -- Better Around/Inside textobjects
     --
     -- Examples:
@@ -27,9 +34,7 @@ return { -- Collection of various small independent plugins/modules
     -- default behavior. For example, here we set the section for
     -- cursor location to LINE:COLUMN
     ---@diagnostic disable-next-line: duplicate-set-field
-    statusline.section_location = function()
-      return '%2l:%-2v'
-    end
+    statusline.section_location = function() return '%2l:%-2v' end
 
     -- ... and there is more!
     --  Check out: https://github.com/echasnovski/mini.nvim
